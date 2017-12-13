@@ -15,8 +15,7 @@ import co.joyrun.videoplayer.video_player_manager.manager.SingleVideoPlayerManag
 import co.joyrun.videoplayer.video_player_manager.manager.VideoPlayerManager;
 import co.joyrun.videoplayer.video_player_manager.meta.MetaData;
 import co.joyrun.videoplayer.video_player_manager.ui.SimpleMainThreadMediaPlayerListener;
-import co.joyrun.videoplayer.video_player_manager.ui.VideoPlayerView;
-import co.joyrun.videoplayer.video_player_manager.widget.VideoPlayer;
+import co.joyrun.videoplayer.video_player_manager.widget.ExpendableVideoPlayerView;
 import co.joyrun.videoplayer.videolist.R;
 
 import java.io.IOException;
@@ -26,8 +25,8 @@ import java.io.IOException;
  */
 public class VideoPlayerManagerFragment extends Fragment implements View.OnClickListener {
 
-    private VideoPlayer mVideoPlayer_1;
-    private VideoPlayer mVideoPlayer_2;
+    private ExpendableVideoPlayerView mExpendableVideoPlayer_View_1;
+    private ExpendableVideoPlayerView mExpendableVideoPlayer_View_2;
 
     private VideoPlayerManager<MetaData> mVideoPlayerManager = new SingleVideoPlayerManager(new PlayerItemChangeListener() {
         @Override
@@ -56,8 +55,8 @@ public class VideoPlayerManagerFragment extends Fragment implements View.OnClick
             e.printStackTrace();
         }
 
-        mVideoPlayer_1 = (VideoPlayer)root.findViewById(R.id.video_player_1);
-        mVideoPlayer_1.addMediaPlayerListener(new SimpleMainThreadMediaPlayerListener(){
+        mExpendableVideoPlayer_View_1 = (ExpendableVideoPlayerView)root.findViewById(R.id.video_player_1);
+        mExpendableVideoPlayer_View_1.addMediaPlayerListener(new SimpleMainThreadMediaPlayerListener(){
             @Override
             public void onVideoPreparedMainThread() {
                 // We hide the cover when video is prepared. Playback is about to start
@@ -79,8 +78,8 @@ public class VideoPlayerManagerFragment extends Fragment implements View.OnClick
         mVideoCover = (ImageView)root.findViewById(R.id.video_cover_1);
         mVideoCover.setOnClickListener(this);
 
-        mVideoPlayer_2 = (VideoPlayer) root.findViewById(R.id.video_player_2);
-        mVideoPlayer_2.addMediaPlayerListener(new SimpleMainThreadMediaPlayerListener(){
+        mExpendableVideoPlayer_View_2 = (ExpendableVideoPlayerView) root.findViewById(R.id.video_player_2);
+        mExpendableVideoPlayer_View_2.addMediaPlayerListener(new SimpleMainThreadMediaPlayerListener(){
             @Override
             public void onVideoPreparedMainThread() {
                 // We hide the cover when video is prepared. Playback is about to start
@@ -111,10 +110,10 @@ public class VideoPlayerManagerFragment extends Fragment implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.video_cover_1:
-                mVideoPlayerManager.playNewVideo(null, mVideoPlayer_1, mVideoFileDecriptor_sample_1);
+                mVideoPlayerManager.playNewVideo(null, mExpendableVideoPlayer_View_1, mVideoFileDecriptor_sample_1);
                 break;
             case R.id.video_cover_2:
-                mVideoPlayerManager.playNewVideo(null, mVideoPlayer_2, mVideoFileDecriptor_sample_2);
+                mVideoPlayerManager.playNewVideo(null, mExpendableVideoPlayer_View_2, mVideoFileDecriptor_sample_2);
                 break;
         }
     }

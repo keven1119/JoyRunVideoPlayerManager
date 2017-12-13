@@ -40,11 +40,11 @@ import co.joyrun.videoplayer.video_player_manager.utils.Logger;
 
 import static android.media.MediaPlayer.MEDIA_ERROR_TIMED_OUT;
 
-public class VideoPlayer extends FrameLayout implements VideoInterfaceV2,
+public class ExpendableVideoPlayerView extends FrameLayout implements VideoInterfaceV2,
                                                         View.OnClickListener,TextureView.SurfaceTextureListener ,
         MediaPlayerWrapper.MainThreadMediaPlayerListener {
 
-    private final static String TAG = VideoPlayer.class.getName();
+    private final static String TAG = ExpendableVideoPlayerView.class.getName();
     private static final int UPDATE_PROGRESS = 0x1;
     private static final int HIDE_CONTROLLER = 0x2;
     private static final int UPDATE_VIEW = 0x3;
@@ -73,15 +73,15 @@ public class VideoPlayer extends FrameLayout implements VideoInterfaceV2,
     private SpaceLandDialog mSpaceLandDialog;
     private MediaPlayerWrapper.State beforeState;//记录切换屏前的视频状态
 
-    public VideoPlayer(Context context) {
+    public ExpendableVideoPlayerView(Context context) {
         this(context, null, 0);
     }
 
-    public VideoPlayer(Context context, AttributeSet attrs) {
+    public ExpendableVideoPlayerView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public VideoPlayer(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ExpendableVideoPlayerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         mActivity = (Activity) context;
@@ -344,6 +344,10 @@ public class VideoPlayer extends FrameLayout implements VideoInterfaceV2,
         mVideoPlayerView.setDataSource(path);
     }
 
+    public String  getDataSource(){
+        return mVideoPlayerView.getDataSource();
+    }
+
     @Override
     public void setDataSource(AssetFileDescriptor assetFileDescriptor) {
         mVideoPlayerView.setDataSource(assetFileDescriptor);
@@ -482,11 +486,6 @@ public class VideoPlayer extends FrameLayout implements VideoInterfaceV2,
     @Override
     public MediaPlayerWrapper.State getCurrentState() {
         return mVideoPlayerView.getCurrentState();
-    }
-
-    @Override
-    public String getVideoUrlDataSource() {
-        return mVideoPlayerView.getVideoUrlDataSource();
     }
 
     @Override

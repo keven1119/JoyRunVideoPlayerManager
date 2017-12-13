@@ -78,7 +78,7 @@ public class SingleVideoPlayerManager implements VideoPlayerManager<MetaData>, V
         boolean currentPlayerIsActive = mCurrentPlayer == videoPlayerView;
         boolean isAlreadyPlayingTheFile =
                 mCurrentPlayer != null &&
-                        videoUrl.equals(mCurrentPlayer.getVideoUrlDataSource());
+                        videoUrl.equals(mCurrentPlayer.getDataSource());
 
         if (SHOW_LOGS) Logger.v(TAG, "playNewVideo, isAlreadyPlayingTheFile " + isAlreadyPlayingTheFile);
         if (SHOW_LOGS) Logger.v(TAG, "playNewVideo, currentPlayerIsActive " + currentPlayerIsActive);

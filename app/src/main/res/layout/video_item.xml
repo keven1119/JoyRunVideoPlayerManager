@@ -20,7 +20,7 @@
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="match_parent" />-->
 
-            <co.joyrun.videoplayer.video_player_manager.widget.VideoPlayer
+            <co.joyrun.videoplayer.video_player_manager.widget.ExpendableVideoPlayerView
                 android:id="@+id/player"
                 android:layout_below="@+id/visibility_percents_top"
                 android:layout_above="@id/title"

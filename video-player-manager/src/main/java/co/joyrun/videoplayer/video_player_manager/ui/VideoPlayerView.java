@@ -88,11 +88,19 @@ public class VideoPlayerView extends ScalableTextureView
         }
     }
 
+    /**
+     * 获取当前视频播放的asset资源信息
+     * @return
+     */
     public AssetFileDescriptor getAssetFileDescriptorDataSource() {
         return mAssetFileDescriptor;
     }
 
-    public String getVideoUrlDataSource() {
+    /**
+     * 获取当前视频播放的资源信息, filepath  或者是url
+     * @return
+     */
+    public String getDataSource() {
         return mPath;
     }
 

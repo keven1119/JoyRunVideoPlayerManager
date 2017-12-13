@@ -51,7 +51,7 @@ public interface VideoInterfaceV2 {
 
     public MediaPlayerWrapper.State getCurrentState();
 
-    public String getVideoUrlDataSource();
+    public String getDataSource();
 
     public AssetFileDescriptor getAssetFileDescriptorDataSource();
 }

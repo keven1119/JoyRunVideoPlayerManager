@@ -8,14 +8,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <!-- Top Player-->
-        <co.joyrun.videoplayer.video_player_manager.widget.VideoPlayer
+        <co.joyrun.videoplayer.video_player_manager.widget.ExpendableVideoPlayerView
             android:id="@+id/video_player_1"
             android:layout_height="0dp"
             android:layout_width="match_parent"
             android:layout_weight="1"
             />
 
-        <co.joyrun.videoplayer.video_player_manager.widget.VideoPlayer
+        <co.joyrun.videoplayer.video_player_manager.widget.ExpendableVideoPlayerView
             android:id="@+id/video_player_2"
             android:layout_height="0dp"
             android:layout_width="match_parent"
