@@ -10,7 +10,7 @@ import co.joyrun.videoplayer.video_player_manager.widget.VideoInterfaceV2;
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.VideoViewHolder;
 import co.joyrun.videoplayer.video_player_manager.manager.VideoPlayerManager;
 
-public class AssetVideoItem extends BaseVideoItem{
+public class AssetVideoItem extends BaseVideoItem<VideoViewHolder>{
 
     private static final String TAG = AssetVideoItem.class.getSimpleName();
     private static final boolean SHOW_LOGS = Config.SHOW_LOGS;
@@ -33,7 +33,7 @@ public class AssetVideoItem extends BaseVideoItem{
     public void update(int position, final VideoViewHolder viewHolder, VideoPlayerManager videoPlayerManager) {
         if(SHOW_LOGS) Logger.v(TAG, "update, position " + position);
 
-        viewHolder.mTitle.setText(mTitle);
+//        viewHolder.mTitle.setText(mTitle);
 //        viewHolder.mCover.setVisibility(View.VISIBLE);
 //        mImageLoader.load(mImageResource).into(viewHolder.mCover);
     }

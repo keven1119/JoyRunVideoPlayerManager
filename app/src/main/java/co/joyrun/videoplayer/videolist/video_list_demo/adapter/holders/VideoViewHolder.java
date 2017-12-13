@@ -4,26 +4,44 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+
 import co.joyrun.videoplayer.video_player_manager.widget.ExpendableVideoPlayerView;
+import co.joyrun.videoplayer.video_player_manager.widget.VideoInterfaceV2;
 import co.joyrun.videoplayer.videolist.R;
 
 
-public class VideoViewHolder extends RecyclerView.ViewHolder{
+public class VideoViewHolder extends RecyclerView.ViewHolder {
 
 //    public final JoyRunVideoPlayer mPlayer;
-    public final ExpendableVideoPlayerView mPlayer;
+    public VideoInterfaceV2 mPlayer;
 //    public final VideoPlayerView mPlayer;
-    public final TextView mTitle;
-//    public final ImageView mCover;
-    public final TextView mVisibilityPercents;
+
 
     public VideoViewHolder(View view) {
         super(view);
-//        mPlayer = (JoyRunVideoPlayer) view.findViewById(R.id.player);
-        mPlayer = (ExpendableVideoPlayerView) view.findViewById(R.id.player);
-//        mPlayer = (VideoPlayerView) view.findViewById(R.id.player);
-        mTitle = (TextView) view.findViewById(R.id.title);
-//        mCover = (ImageView) view.findViewById(R.id.cover);
-        mVisibilityPercents = (TextView) view.findViewById(R.id.visibility_percents);
+        Type type = getClass().getGenericSuperclass();
+
+        // 判断 是否泛型
+        if (type instanceof ParameterizedType) {
+            // 返回表示此类型实际类型参数的Type对象的数组.
+            // 当有多个泛型类时，数组的长度就不是1了
+            Type[] ptype = ((ParameterizedType) type).getActualTypeArguments();
+
+            if (ptype.length != 1) {
+                throw new RuntimeException("this construction only can set param View");
+            }
+        }
+
+        mPlayer = view.findViewById(R.id.player);
+    }
+
+    public void setPlayer(VideoInterfaceV2 player) {
+        this.mPlayer = player;
+    }
+
+    public VideoInterfaceV2 getPlayer() {
+        return mPlayer;
     }
 }

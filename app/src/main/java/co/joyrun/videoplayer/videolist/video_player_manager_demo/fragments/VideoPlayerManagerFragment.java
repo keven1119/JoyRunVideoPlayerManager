@@ -23,7 +23,7 @@ import java.io.IOException;
 /**
  * Created by danylo.volokh on 1/10/2016.
  */
-public class VideoPlayerManagerFragment extends Fragment implements View.OnClickListener {
+public class VideoPlayerManagerFragment extends Fragment {
 
     private ExpendableVideoPlayerView mExpendableVideoPlayer_View_1;
     private ExpendableVideoPlayerView mExpendableVideoPlayer_View_2;
@@ -36,9 +36,6 @@ public class VideoPlayerManagerFragment extends Fragment implements View.OnClick
     });
     private AssetFileDescriptor mVideoFileDecriptor_sample_1;
     private AssetFileDescriptor mVideoFileDecriptor_sample_2;
-
-    private ImageView mVideoCover;
-    private ImageView mVideoCover2;
 
     @Nullable
     @Override
@@ -60,70 +57,65 @@ public class VideoPlayerManagerFragment extends Fragment implements View.OnClick
             @Override
             public void onVideoPreparedMainThread() {
                 // We hide the cover when video is prepared. Playback is about to start
-                mVideoCover.setVisibility(View.INVISIBLE);
+//                mVideoCover.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onVideoStoppedMainThread() {
                 // We show the cover when video is stopped
-                mVideoCover.setVisibility(View.VISIBLE);
+//                mVideoCover.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onVideoCompletionMainThread() {
                 // We show the cover when video is completed
-                mVideoCover.setVisibility(View.VISIBLE);
+//                mVideoCover.setVisibility(View.VISIBLE);
             }
         });
-        mVideoCover = (ImageView)root.findViewById(R.id.video_cover_1);
-        mVideoCover.setOnClickListener(this);
+//        mVideoCover = (ImageView)root.findViewById(R.id.video_cover_1);
+//        mVideoCover.setOnClickListener(this);
 
         mExpendableVideoPlayer_View_2 = (ExpendableVideoPlayerView) root.findViewById(R.id.video_player_2);
         mExpendableVideoPlayer_View_2.addMediaPlayerListener(new SimpleMainThreadMediaPlayerListener(){
             @Override
             public void onVideoPreparedMainThread() {
                 // We hide the cover when video is prepared. Playback is about to start
-                mVideoCover2.setVisibility(View.INVISIBLE);
+//                mVideoCover2.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onVideoStoppedMainThread() {
                 // We show the cover when video is stopped
-                mVideoCover2.setVisibility(View.VISIBLE);
+//                mVideoCover2.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onVideoCompletionMainThread() {
                 // We show the cover when video is completed
-                mVideoCover2.setVisibility(View.VISIBLE);
+//                mVideoCover2.setVisibility(View.VISIBLE);
             }
         });
-        mVideoCover2 = (ImageView)root.findViewById(R.id.video_cover_2);
-        mVideoCover2.setOnClickListener(this);
+//        mVideoCover2 = (ImageView)root.findViewById(R.id.video_cover_2);
+//        mVideoCover2.setOnClickListener(this);
+//
+//        Picasso.with(getActivity()).load(R.drawable.video_sample_1_pic).into(mVideoCover);
+//        Picasso.with(getActivity()).load(R.drawable.video_sample_2_pic).into(mVideoCover2);
 
-        Picasso.with(getActivity()).load(R.drawable.video_sample_1_pic).into(mVideoCover);
-        Picasso.with(getActivity()).load(R.drawable.video_sample_2_pic).into(mVideoCover2);
+
+        mExpendableVideoPlayer_View_1.autoPlay(false);
+
+        mVideoPlayerManager.playNewVideo(null, mExpendableVideoPlayer_View_1, mVideoFileDecriptor_sample_1);
+//        mVideoPlayerManager.playNewVideo(null, mExpendableVideoPlayer_View_2, mVideoFileDecriptor_sample_2);
+
         return root;
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.video_cover_1:
-                mVideoPlayerManager.playNewVideo(null, mExpendableVideoPlayer_View_1, mVideoFileDecriptor_sample_1);
-                break;
-            case R.id.video_cover_2:
-                mVideoPlayerManager.playNewVideo(null, mExpendableVideoPlayer_View_2, mVideoFileDecriptor_sample_2);
-                break;
-        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
         // in case we exited screen in playback
-        mVideoCover.setVisibility(View.VISIBLE);
-        mVideoCover2.setVisibility(View.VISIBLE);
+//        mVideoCover.setVisibility(View.VISIBLE);
+//        mVideoCover2.setVisibility(View.VISIBLE);
 
         mVideoPlayerManager.stopAnyPlayback();
     }

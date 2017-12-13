@@ -16,15 +16,18 @@ import co.joyrun.videoplayer.video_player_manager.meta.MetaData;
 import co.joyrun.videoplayer.videolist.R;
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.VideoRecyclerViewAdapter;
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.items.BaseVideoItem;
+import co.joyrun.videoplayer.videolist.video_list_demo.adapter.items.CustomerItem;
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.items.DirectLinkVideoItem;
 import co.joyrun.videoplayer.video_player_manager.manager.SingleVideoPlayerManager;
 import co.joyrun.videoplayer.video_player_manager.manager.VideoPlayerManager;
+import co.joyrun.videoplayer.videolist.video_list_demo.adapter.items.ItemFactory;
 import co.joyrun.videoplayer.visibility_utils.calculator.DefaultSingleItemCalculatorCallback;
 import co.joyrun.videoplayer.visibility_utils.calculator.ListItemsVisibilityCalculator;
 import co.joyrun.videoplayer.visibility_utils.calculator.SingleListViewItemActiveCalculator;
 import co.joyrun.videoplayer.visibility_utils.scroll_utils.ItemsPositionGetter;
 import co.joyrun.videoplayer.visibility_utils.scroll_utils.RecyclerViewItemPositionGetter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -69,7 +72,7 @@ public class VideoRecyclerViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mVideoPlayerManager.setAutoPlay(true);
+//        mVideoPlayerManager.setAutoPlay(true);
 
 //        try {
 //            mList.add(ItemFactory.createItemFromAsset("video_sample_1.mp4", R.drawable.video_sample_1_pic, getActivity(), mVideoPlayerManager));
@@ -86,18 +89,35 @@ public class VideoRecyclerViewFragment extends Fragment {
 //            mList.add(ItemFactory.createItemFromAsset("video_sample_2.mp4", R.drawable.video_sample_2_pic, getActivity(), mVideoPlayerManager));
 //            mList.add(ItemFactory.createItemFromAsset("video_sample_3.mp4", R.drawable.video_sample_3_pic, getActivity(), mVideoPlayerManager));
 //            mList.add(ItemFactory.createItemFromAsset("video_sample_4.mp4", R.drawable.video_sample_4_pic, getActivity(), mVideoPlayerManager));
+//
+//            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_1_pic));
+//            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_2_pic));
+//            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_3_pic));
+//            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_4_pic));
+//            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_1_pic));
+//            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_2_pic));
+//            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_3_pic));
+//            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_4_pic));
+//            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_1_pic));
+//            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_2_pic));
 
-            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_1_pic));
-            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_2_pic));
-            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_3_pic));
-            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_4_pic));
-            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_1_pic));
-            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_2_pic));
-            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_3_pic));
-            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_4_pic));
-            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_1_pic));
-            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_2_pic));
-//        } catch (IOException e) {
+        CustomerItem.MyVideoItem myVideoItem = new CustomerItem.MyVideoItem();
+        myVideoItem.setVideoUrl("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4");
+        myVideoItem.setCoverUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512133829765&di=aa6cfb825d8c8ed1e401222190a811a2&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D2760457749%2C4161462131%26fm%3D214%26gp%3D0.jpg");
+//
+//
+        mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
+        mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
+        mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
+        mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
+        mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
+        mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
+        mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
+        mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
+        mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
+        mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
+        mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
+// } catch (IOException e) {
 //            throw new RuntimeException(e);
 //        }
 

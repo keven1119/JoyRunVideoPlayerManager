@@ -9,7 +9,7 @@ import co.joyrun.videoplayer.video_player_manager.manager.VideoPlayerManager;
 /**
  * Use this class if you have direct path to the video source
  */
-public class DirectLinkVideoItem extends BaseVideoItem {
+public class DirectLinkVideoItem extends BaseVideoItem<VideoViewHolder> {
 
     private final String mDirectUrl;
     private final String mTitle;
@@ -28,7 +28,7 @@ public class DirectLinkVideoItem extends BaseVideoItem {
 
     @Override
     public void update(int position, VideoViewHolder viewHolder, VideoPlayerManager videoPlayerManager) {
-        viewHolder.mTitle.setText(mTitle);
+//        viewHolder.mTitle.setText(mTitle);
 //        viewHolder.mCover.setVisibility(View.VISIBLE);
 //        mImageLoader.load(mImageResource).into(viewHolder.mCover);
     }

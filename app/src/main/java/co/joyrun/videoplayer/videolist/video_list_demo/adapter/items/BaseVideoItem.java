@@ -1,25 +1,32 @@
 package co.joyrun.videoplayer.videolist.video_list_demo.adapter.items;
 
 import android.graphics.Rect;
+import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
 
 import co.joyrun.videoplayer.video_player_manager.manager.VideoItem;
 import co.joyrun.videoplayer.video_player_manager.meta.MetaData;
 import co.joyrun.videoplayer.video_player_manager.ui.MediaPlayerWrapper;
 import co.joyrun.videoplayer.video_player_manager.utils.Logger;
 import co.joyrun.videoplayer.videolist.R;
+import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.MyVideoHolder;
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.VideoViewHolder;
 import co.joyrun.videoplayer.video_player_manager.manager.VideoPlayerManager;
 import co.joyrun.videoplayer.video_player_manager.meta.CurrentItemMetaData;
 import co.joyrun.videoplayer.visibility_utils.items.ListItem;
 
-public abstract class BaseVideoItem implements VideoItem, ListItem{
+public abstract class BaseVideoItem<T extends VideoViewHolder> implements VideoItem, ListItem{
 
     private static final boolean SHOW_LOGS = false;
     private static final String TAG = BaseVideoItem.class.getSimpleName();
+    private Class<T> clz;
 
     /**
      * An object that is filled with values when {@link #getVisibilityPercents} method is called.
@@ -31,6 +38,12 @@ public abstract class BaseVideoItem implements VideoItem, ListItem{
 
     protected BaseVideoItem(VideoPlayerManager<MetaData>  videoPlayerManager) {
         mVideoPlayerManager = videoPlayerManager;
+        if (clz == null) {
+            //获取泛型的Class对象
+            clz = ((Class<T>)
+                    (((ParameterizedType) (this.getClass().getGenericSuperclass())).getActualTypeArguments()[0]));
+        }
+
     }
 
     /**
@@ -39,15 +52,15 @@ public abstract class BaseVideoItem implements VideoItem, ListItem{
      * 1. {@link android.widget.ListAdapter#getView(int, View, ViewGroup)}
      * 2. {@link android.support.v7.widget.RecyclerView.Adapter#onBindViewHolder(RecyclerView.ViewHolder, int)}
      */
-    public abstract void update(int position, VideoViewHolder view, VideoPlayerManager videoPlayerManager);
+    public abstract void update(int position, T view, VideoPlayerManager videoPlayerManager);
 
     /**
      * When this item becomes active we start playback on the video in this item
      */
     @Override
     public void setActive(View newActiveView, int newActiveViewPosition) {
-        VideoViewHolder viewHolder = (VideoViewHolder) newActiveView.getTag();
-        playNewVideo(new CurrentItemMetaData(newActiveViewPosition, newActiveView), viewHolder.mPlayer, mVideoPlayerManager);
+        T viewHolder = (T) newActiveView.getTag();
+        playNewVideo(new CurrentItemMetaData(newActiveViewPosition, newActiveView), ((T)viewHolder).getPlayer(), mVideoPlayerManager);
     }
 
     /**
@@ -58,12 +71,18 @@ public abstract class BaseVideoItem implements VideoItem, ListItem{
         stopPlayback(mVideoPlayerManager);
     }
 
-    public View createView(ViewGroup parent, int screenWidth) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.video_item, parent, false);
+    public View createView(ViewGroup parent, @LayoutRes int layoutId, int screenWidth) throws NoSuchMethodException,IllegalAccessException,
+            InstantiationException,InvocationTargetException{
+        View view = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         layoutParams.height = screenWidth;
 
-        final VideoViewHolder videoViewHolder = new VideoViewHolder(view);
+        //创建Viewholder实例
+        Class[] parameterTypes = {View.class};
+        Constructor<T> constructor = clz.getConstructor(parameterTypes);
+        Object[] paramters = {view};
+        T videoViewHolder = constructor.newInstance(paramters);
+
         view.setTag(videoViewHolder);
 
         videoViewHolder.mPlayer.addMediaPlayerListener(new MediaPlayerWrapper.MainThreadMediaPlayerListener() {
@@ -75,6 +94,16 @@ public abstract class BaseVideoItem implements VideoItem, ListItem{
             public void onVideoPreparedMainThread() {
                 // When video is prepared it's about to start playback. So we hide the cover
 //                videoViewHolder.mCover.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onVideoStartMainThread() {
+
+            }
+
+            @Override
+            public void onVideoPauseMainThread() {
+
             }
 
             @Override
@@ -136,10 +165,9 @@ public abstract class BaseVideoItem implements VideoItem, ListItem{
 
     private void setVisibilityPercentsText(View currentView, int percents) {
         if(SHOW_LOGS) Logger.v(TAG, "setVisibilityPercentsText percents " + percents);
-        VideoViewHolder videoViewHolder = (VideoViewHolder) currentView.getTag();
-        String percentsText = "Visibility percents: " + String.valueOf(percents);
-
-        videoViewHolder.mVisibilityPercents.setText(percentsText);
+//        T videoViewHolder = (T) currentView.getTag();
+//        String percentsText = "Visibility percents: " + String.valueOf(percents);
+//        ((MyVideoHolder)videoViewHolder).mVisibilityPercents.setText(percentsText);
     }
 
     private boolean viewIsPartiallyHiddenBottom(int height) {
