@@ -4,5 +4,4 @@ build
 local.properties
 .gradle
 .idea
-JoyrunVideoPlayerManager.iml
 VideoPlayerManager.iml
