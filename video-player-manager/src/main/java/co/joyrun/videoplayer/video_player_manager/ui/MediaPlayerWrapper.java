@@ -5,9 +5,12 @@ import android.content.res.AssetFileDescriptor;
 import android.graphics.SurfaceTexture;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Surface;
+
+import com.joyrun.videoplayer.video_player_manager.BuildConfig;
 
 import co.joyrun.videoplayer.video_player_manager.Config;
 import co.joyrun.videoplayer.video_player_manager.utils.Logger;
@@ -36,7 +39,7 @@ public abstract class MediaPlayerWrapper
 {
 
     private String TAG;
-    private static final boolean SHOW_LOGS = Config.SHOW_LOGS;
+    private static final boolean SHOW_LOGS = BuildConfig.DEBUG;
 
     public static final int POSITION_UPDATE_NOTIFYING_PERIOD = 1000;         // milliseconds
     private ScheduledFuture<?> mFuture;
@@ -54,8 +57,8 @@ public abstract class MediaPlayerWrapper
         ERROR //onErrorListerer  回调之后
     }
 
-    private final Handler mMainThreadHandler = new Handler(Looper.getMainLooper());
-    private final MediaPlayer mMediaPlayer;
+    private Handler mMainThreadHandler = new Handler(Looper.getMainLooper());
+    private MediaPlayer mMediaPlayer;
     private final AtomicReference<State> mState = new AtomicReference<>();
 
     private MainThreadMediaPlayerListener mListener;
@@ -139,7 +142,8 @@ public abstract class MediaPlayerWrapper
                 case PLAYBACK_COMPLETED:
                 case END:
                 case ERROR:
-                    throw new IllegalStateException("prepare, called from illegal state " + mState);
+                    Logger.v(TAG, ">> prepare, called from illegal state " + mState);
+//                    throw new IllegalStateException("prepare, called from illegal state " + mState);
             }
         }
         if (SHOW_LOGS) Logger.v(TAG, "<< prepare, mState " + mState);
@@ -192,7 +196,8 @@ public abstract class MediaPlayerWrapper
                 case END:
                 case ERROR:
                 default:
-                    throw new IllegalStateException("setDataSource called in state " + mState);
+                    Logger.v(TAG, ">> setDataSource called in state " + mState);
+//                    throw new IllegalStateException("setDataSource called in state " + mState);
             }
         }
     }
@@ -220,7 +225,8 @@ public abstract class MediaPlayerWrapper
                 case END:
                 case ERROR:
                 default:
-                    throw new IllegalStateException("setDataSource called in state " + mState);
+                    Logger.v(TAG, ">> setDataSource called in state " + mState);
+//                    throw new IllegalStateException("setDataSource called in state " + mState);
             }
         }
     }
@@ -475,13 +481,14 @@ public abstract class MediaPlayerWrapper
                     }
                     break;
                 case STOPPED:
-                    throw new IllegalStateException("stop, already stopped");
-//                    mMediaPlayer.stop();
-//                    mMediaPlayer.release();
+                    Logger.v(TAG, ">> already stopped");
                 case IDLE:
                 case INITIALIZED:
                 case END:
                 case ERROR:
+                    if(mListener != null){
+                        mListener.onErrorMainThread(0,0);
+                    }
 //                    throw new IllegalStateException("cannot stop. Player in mState " + mState);
             }
         }
@@ -506,7 +513,8 @@ public abstract class MediaPlayerWrapper
                     mState.set(State.IDLE);
                     break;
                 case END:
-                    throw new IllegalStateException("cannot call reset from state " + mState.get());
+                    Logger.v(TAG, ">> video  end");
+//                    throw new IllegalStateException("cannot call reset from state " + mState.get());
             }
         }
         if (SHOW_LOGS) Logger.v(TAG, "<< reset , mState " + mState);
@@ -515,7 +523,9 @@ public abstract class MediaPlayerWrapper
     public void release() {
         if (SHOW_LOGS) Logger.v(TAG, ">> release, mState " + mState);
         synchronized (mState) {
-            mMediaPlayer.release();
+            if(mMediaPlayer != null) {
+                mMediaPlayer.release();
+            }
             mState.set(State.END);
         }
         if (SHOW_LOGS) Logger.v(TAG, "<< release, mState " + mState);
@@ -532,6 +542,17 @@ public abstract class MediaPlayerWrapper
             mMediaPlayer.setOnSeekCompleteListener(null);
         }
         if (SHOW_LOGS) Logger.v(TAG, "<< clearAll, mState " + mState);
+    }
+
+    public void close(){
+        clearAll();
+        release();
+        mMediaPlayer = null;
+
+        if(mMainThreadHandler != null){
+            mMainThreadHandler.removeCallbacksAndMessages(null);
+            mMainThreadHandler = null;
+        }
     }
 
     public void setLooping(boolean looping) {

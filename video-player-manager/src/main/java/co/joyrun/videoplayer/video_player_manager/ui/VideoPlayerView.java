@@ -2,6 +2,7 @@ package co.joyrun.videoplayer.video_player_manager.ui;
 
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.SurfaceTexture;
@@ -70,7 +71,7 @@ public class VideoPlayerView extends ScalableTextureView
 
     private final ReadyForPlaybackIndicator mReadyForPlaybackIndicator = new ReadyForPlaybackIndicator();
 
-    private final Set<MediaPlayerWrapper.MainThreadMediaPlayerListener> mMediaPlayerMainThreadListeners = new HashSet<>();
+    private Set<MediaPlayerWrapper.MainThreadMediaPlayerListener> mMediaPlayerMainThreadListeners = new HashSet<>();
 
     public MediaPlayerWrapper.State getCurrentState() {
         synchronized (mReadyForPlaybackIndicator) {
@@ -130,7 +131,7 @@ public class VideoPlayerView extends ScalableTextureView
     }
 
     /**
-     * 用于非主播视频的视频资源设置
+     * 用于判断是否是焦点视频
      * @return
      */
     private boolean checkThread() {
@@ -166,6 +167,10 @@ public class VideoPlayerView extends ScalableTextureView
             mMediaPlayer.setAudioStreamType(streamtype);
         }
     }
+
+    /**
+     * 主要由 {@link co.joyrun.videoplayer.video_player_manager.manager.SingleVideoPlayerManager 进行调用 }
+     */
     public void clearPlayerInstance() {
         if (SHOW_LOGS) Logger.v(TAG, ">> clearPlayerInstance");
 
@@ -173,8 +178,10 @@ public class VideoPlayerView extends ScalableTextureView
 
             synchronized (mReadyForPlaybackIndicator) {
                 mReadyForPlaybackIndicator.setVideoSize(null, null);
-                mMediaPlayer.clearAll();
-                mMediaPlayer = null;
+                if(mMediaPlayer != null) {
+                    mMediaPlayer.clearAll();
+                    mMediaPlayer = null;
+                }
             }
         }
 
@@ -297,6 +304,30 @@ public class VideoPlayerView extends ScalableTextureView
             setScaleType(ScalableTextureView.ScaleType.CENTER_CROP);
             super.setSurfaceTextureListener(this);
         }
+    }
+
+    /**
+     * 销毁VideoPlayerView 资源，用在{@link Activity#onDestroy()}
+     */
+    public void close(){
+        if(mMediaPlayer != null){
+            mMediaPlayer .close();
+        }
+
+        if(mViewHandlerBackgroundThread != null){
+            mViewHandlerBackgroundThread.clear();
+            mViewHandlerBackgroundThread = null;
+        }
+
+        if(mMediaPlayerMainThreadListeners != null){
+            mMediaPlayerMainThreadListeners.clear();
+            mMediaPlayerMainThreadListeners = null;
+        }
+
+
+        mLocalSurfaceTextureListener = null;
+        mVideoStateListener = null;
+        mMediaPlayerListenerBackgroundThread = null;
     }
 
     public boolean isAutoPlay(){

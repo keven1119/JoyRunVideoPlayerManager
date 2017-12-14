@@ -90,5 +90,12 @@ public class HandlerThreadExtension extends HandlerThread {
     public void remove(Runnable runnable){
         mHandler.removeCallbacks(runnable);
     }
+
+    public void clear(){
+        if(mHandler != null){
+            mHandler.removeCallbacksAndMessages(null);
+            mHandler = null;
+        }
+    }
 }
 

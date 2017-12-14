@@ -36,6 +36,10 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.joyrun.videoplayer.video_player_manager.R;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import co.joyrun.videoplayer.video_player_manager.ui.MediaPlayerWrapper;
 import co.joyrun.videoplayer.video_player_manager.ui.VideoPlayerView;
 import co.joyrun.videoplayer.video_player_manager.utils.Logger;
@@ -514,16 +518,24 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
     }
 
     public void close() {
+        if(mVideoPlayerView != null){
+            mVideoPlayerView.close();
+            mVideoPlayerView = null;
+        }
         if (mHandler != null) {
             mHandler.removeMessages(UPDATE_PROGRESS);
             mHandler.removeMessages(HIDE_CONTROLLER);
             mHandler.removeCallbacksAndMessages(null);
             mHandler = null;
         }
-        if (mVideoPlayerView.getMediaPlayerWrapper() != null) {
-            mVideoPlayerView.release();
-//            mVideoPlayerView.clearPlayerInstance();
+
+        if(mSpaceLandDialog != null && mSpaceLandDialog.isShowing()){
+            request2Portrait();
         }
+        mSpaceLandDialog = null;
+
+        mActivity = null;
+//            mVideoPlayerView.clearPlayerInstance();
     }
 
     private boolean isWifiConnected() {
