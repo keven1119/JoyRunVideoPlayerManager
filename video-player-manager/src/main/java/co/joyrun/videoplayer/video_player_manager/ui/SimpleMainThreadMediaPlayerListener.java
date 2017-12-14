@@ -16,6 +16,16 @@ public class SimpleMainThreadMediaPlayerListener implements MediaPlayerWrapper.M
     }
 
     @Override
+    public void onVideoStartMainThread() {
+
+    }
+
+    @Override
+    public void onVideoPauseMainThread() {
+
+    }
+
+    @Override
     public void onVideoCompletionMainThread() {
 
     }

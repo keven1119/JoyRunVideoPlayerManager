@@ -1,6 +1,7 @@
 package co.joyrun.videoplayer.video_player_manager.widget;
 
 import android.content.res.AssetFileDescriptor;
+import android.support.annotation.DrawableRes;
 
 import co.joyrun.videoplayer.video_player_manager.ui.MediaPlayerWrapper;
 import co.joyrun.videoplayer.video_player_manager.ui.VideoPlayerView;
@@ -23,7 +24,11 @@ public interface VideoInterfaceV2 {
 
     public void stop();
 
-    public boolean start();
+    public void start();
+
+    public void setCover(String url);
+
+    public void setCover(@DrawableRes int id);
 
     public void setDataSource(String path);
 
@@ -54,4 +59,8 @@ public interface VideoInterfaceV2 {
     public String getDataSource();
 
     public AssetFileDescriptor getAssetFileDescriptorDataSource();
+
+    public boolean isAutoPlay();
+
+    public void autoPlay(boolean autoPlay);
 }

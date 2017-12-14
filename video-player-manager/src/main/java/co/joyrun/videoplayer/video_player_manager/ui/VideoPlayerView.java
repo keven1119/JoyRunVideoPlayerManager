@@ -10,6 +10,7 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.view.TextureView;
 import android.view.View;
@@ -65,6 +66,7 @@ public class VideoPlayerView extends ScalableTextureView
     private String mPath;
     private int mPrecent;
 
+    private boolean mIsAutoPlay = true; //是否自动播放
 
     private final ReadyForPlaybackIndicator mReadyForPlaybackIndicator = new ReadyForPlaybackIndicator();
 
@@ -76,14 +78,6 @@ public class VideoPlayerView extends ScalableTextureView
                 return mMediaPlayer.getCurrentState();
             }else {
                 return MediaPlayerWrapper.State.IDLE;
-            }
-        }
-    }
-
-    public void setCurrentState(MediaPlayerWrapper.State state){
-        synchronized (mReadyForPlaybackIndicator) {
-            if(mMediaPlayer != null) {
-                mMediaPlayer.setCurrentState(state);
             }
         }
     }
@@ -135,6 +129,10 @@ public class VideoPlayerView extends ScalableTextureView
         initView();
     }
 
+    /**
+     * 用于非主播视频的视频资源设置
+     * @return
+     */
     private boolean checkThread() {
         if(Looper.myLooper() == Looper.getMainLooper()){
 //            throw new RuntimeException("cannot be in main thread");
@@ -250,13 +248,12 @@ public class VideoPlayerView extends ScalableTextureView
         return isVideoSizeAvailable;
     }
 
-    public boolean start(){
-        boolean isStarted = false;
+    public void start(){
+
         if (SHOW_LOGS) Logger.v(TAG, ">> start");
         synchronized (mReadyForPlaybackIndicator){
             if(mReadyForPlaybackIndicator.isReadyForPlayback()){
                 mMediaPlayer.start();
-                isStarted = true;
             } else {
                 if (SHOW_LOGS) Logger.v(TAG, "start, >> wait");
                 if(!mReadyForPlaybackIndicator.isFailedToPrepareUiForPlayback()){
@@ -270,7 +267,6 @@ public class VideoPlayerView extends ScalableTextureView
 
                     if(mReadyForPlaybackIndicator.isReadyForPlayback()){
                         mMediaPlayer.start();
-                        isStarted = true;
                     } else {
                         if (SHOW_LOGS) Logger.w(TAG, "start, movie is not ready, Player become STARTED state, but it will actually don't play");
                     }
@@ -280,7 +276,16 @@ public class VideoPlayerView extends ScalableTextureView
             }
         }
         if (SHOW_LOGS) Logger.v(TAG, "<< start");
-        return isStarted;
+    }
+
+    @Override
+    public void setCover(String url) {
+
+    }
+
+    @Override
+    public void setCover(@DrawableRes int id) {
+
     }
 
     private void initView() {
@@ -292,6 +297,14 @@ public class VideoPlayerView extends ScalableTextureView
             setScaleType(ScalableTextureView.ScaleType.CENTER_CROP);
             super.setSurfaceTextureListener(this);
         }
+    }
+
+    public boolean isAutoPlay(){
+        return mIsAutoPlay;
+    }
+
+    public void autoPlay(boolean autoPlay){
+        mIsAutoPlay = autoPlay;
     }
 
     @Override
@@ -428,6 +441,28 @@ public class VideoPlayerView extends ScalableTextureView
         }
     }
 
+    private void notifyOnVideoStartedMainThread() {
+        if (SHOW_LOGS) Logger.v(TAG, "notifyOnVideoPreparedMainThread");
+        List<MediaPlayerWrapper.MainThreadMediaPlayerListener> listCopy;
+        synchronized (mMediaPlayerMainThreadListeners){
+            listCopy = new ArrayList<>(mMediaPlayerMainThreadListeners);
+        }
+        for (MediaPlayerWrapper.MainThreadMediaPlayerListener listener : listCopy) {
+            listener.onVideoStartMainThread();
+        }
+    }
+
+    private void notifyOnVideoPauseMainThread() {
+        if (SHOW_LOGS) Logger.v(TAG, "notifyOnVideoPreparedMainThread");
+        List<MediaPlayerWrapper.MainThreadMediaPlayerListener> listCopy;
+        synchronized (mMediaPlayerMainThreadListeners){
+            listCopy = new ArrayList<>(mMediaPlayerMainThreadListeners);
+        }
+        for (MediaPlayerWrapper.MainThreadMediaPlayerListener listener : listCopy) {
+            listener.onVideoPauseMainThread();
+        }
+    }
+
     private void notifyOnErrorMainThread(int what, int extra) {
         if (SHOW_LOGS) Logger.v(TAG, "notifyOnErrorMainThread");
         List<MediaPlayerWrapper.MainThreadMediaPlayerListener> listCopy;
@@ -475,6 +510,17 @@ public class VideoPlayerView extends ScalableTextureView
         if (mMediaPlayerListenerBackgroundThread != null) {
             mViewHandlerBackgroundThread.post(mVideoPreparedBackgroundThreadRunnable);
         }
+    }
+
+    @Override
+    public void onVideoStartMainThread() {
+        notifyOnVideoStartedMainThread();
+
+    }
+
+    @Override
+    public void onVideoPauseMainThread() {
+        notifyOnVideoPauseMainThread();
     }
 
     @Override

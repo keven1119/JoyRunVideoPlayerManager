@@ -35,7 +35,7 @@ public class SingleVideoPlayerManager implements VideoPlayerManager<MetaData>, V
     /**
      * This is a handler thread that is used to process Player messages.
      */
-    private final MessagesHandlerThread mPlayerHandler = new MessagesHandlerThread();
+    private MessagesHandlerThread mPlayerHandler = new MessagesHandlerThread();
 
     /**
      * When {@link SingleVideoPlayerManager} actually switches the player
@@ -48,7 +48,7 @@ public class SingleVideoPlayerManager implements VideoPlayerManager<MetaData>, V
     private VideoInterfaceV2 mCurrentPlayer = null;
     private PlayerMessageState mCurrentPlayerState = PlayerMessageState.IDLE;
 
-    private boolean isAutoPlay = true;
+//    private boolean isAutoPlay = true;
 
     public SingleVideoPlayerManager(PlayerItemChangeListener playerItemChangeListener) {
         mPlayerItemChangeListener = playerItemChangeListener;
@@ -244,16 +244,6 @@ public class SingleVideoPlayerManager implements VideoPlayerManager<MetaData>, V
         if(SHOW_LOGS) Logger.v(TAG, "<< resetMediaPlayer, mCurrentPlayerState " + mCurrentPlayerState);
     }
 
-    @Override
-    public void setAutoPlay(boolean autoPlay) {
-        isAutoPlay = autoPlay;
-    }
-
-    @Override
-    public boolean isAutoPlay() {
-        return isAutoPlay;
-    }
-
     /**
      * This method posts a set of messages to {@link MessagesHandlerThread} in order
      * to start new playback
@@ -264,7 +254,7 @@ public class SingleVideoPlayerManager implements VideoPlayerManager<MetaData>, V
     private void startPlayback(VideoInterfaceV2 videoPlayerView, String videoUrl) {
         if(SHOW_LOGS) Logger.v(TAG, "startPlayback");
 
-        if(isAutoPlay()){
+        if(videoPlayerView.isAutoPlay()){
             mPlayerHandler.addMessages(Arrays.asList(
                     new CreateNewPlayerInstance(videoPlayerView, this),
                     new SetUrlDataSourceMessage(videoPlayerView, videoUrl, this),
@@ -284,7 +274,7 @@ public class SingleVideoPlayerManager implements VideoPlayerManager<MetaData>, V
     private void startPlayback(VideoInterfaceV2 videoPlayerView, AssetFileDescriptor assetFileDescriptor) {
         if(SHOW_LOGS) Logger.v(TAG, "startPlayback");
 
-        if(isAutoPlay()) {
+        if(videoPlayerView.isAutoPlay()) {
             mPlayerHandler.addMessages(Arrays.asList(
                     new CreateNewPlayerInstance(videoPlayerView, this),
                     new SetAssetsDataSourceMessage(videoPlayerView, assetFileDescriptor, this),
@@ -448,6 +438,16 @@ public class SingleVideoPlayerManager implements VideoPlayerManager<MetaData>, V
 
     @Override
     public void onVideoPreparedMainThread() {
+    }
+
+    @Override
+    public void onVideoStartMainThread() {
+
+    }
+
+    @Override
+    public void onVideoPauseMainThread() {
+
     }
 
     @Override

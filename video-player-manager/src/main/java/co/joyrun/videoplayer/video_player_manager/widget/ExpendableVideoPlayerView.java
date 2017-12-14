@@ -14,6 +14,8 @@ import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -67,7 +69,6 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
     private ProgressBar mProgressBar_loading;
     private AudioManager audioManager = null; // 音频
     private String mCoverPath;
-    private OnStartVideoListener mStartVideoListener;
     private int mProgress;
 
     private SpaceLandDialog mSpaceLandDialog;
@@ -227,6 +228,15 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
     }
 
 
+    public boolean isAutoPlay(){
+        return mVideoPlayerView.isAutoPlay();
+    }
+
+    public void autoPlay(boolean autoPlay){
+       mVideoPlayerView.autoPlay(autoPlay);
+    }
+
+
     @Override
     public void onVideoSizeChangedMainThread(int width, int height) {
 
@@ -237,6 +247,23 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
         initText();
         start();
         mHandler.sendEmptyMessage(UPDATE_VIEW);
+    }
+
+    @Override
+    public void onVideoStartMainThread() {
+        if (mVideoPlayerView.getMediaPlayerWrapper() != null)
+            if(!mHandler.hasMessages(UPDATE_PROGRESS)) {
+                mHandler.sendEmptyMessageDelayed(UPDATE_PROGRESS, 1000);
+            }
+        mHandler.sendEmptyMessage(UPDATE_VIEW);
+    }
+
+    @Override
+    public void onVideoPauseMainThread() {
+        if (mHandler != null) {
+            mHandler.removeMessages(UPDATE_PROGRESS);
+//            mVideoPlayerView.setCurrentState(MediaPlayerWrapper.State.PAUSED);
+        }
     }
 
     @Override
@@ -325,18 +352,10 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
                 seconds) : String.format("%02d:%02d", minutes, seconds);
     }
 
-    public boolean start() {
-//        mMediaPlayer.start();
-        boolean start = mVideoPlayerView.start();
-        if(start) {
-            if (mVideoPlayerView.getMediaPlayerWrapper() != null)
-                if(!mHandler.hasMessages(UPDATE_PROGRESS)) {
-                    mHandler.sendEmptyMessageDelayed(UPDATE_PROGRESS, 1000);
-                }
-            mHandler.sendEmptyMessage(UPDATE_VIEW);
+    public void start() {
+        if (mVideoPlayerView.getMediaPlayerWrapper() != null) {
+            mVideoPlayerView.start();
         }
-
-        return start;
     }
 
     @Override
@@ -391,9 +410,9 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        prepare();
-                        if (mStartVideoListener != null) {
-                            mStartVideoListener.onStart();
+
+                        if(getCurrentState() == MediaPlayerWrapper.State.PREPARED){
+                            start();
                         }
                     }
                 }).build();
@@ -420,6 +439,10 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setCover(@DrawableRes int id){
+        Glide.with(getContext()).load(id).into(mCoverImg);
     }
 
     public String getCoverPath() {
@@ -458,10 +481,7 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
         if (!isInPlaybackState()) {
             return;
         }
-        if (mHandler != null) {
-            mHandler.removeMessages(UPDATE_PROGRESS);
-//            mVideoPlayerView.setCurrentState(MediaPlayerWrapper.State.PAUSED);
-        }
+
         if (mVideoPlayerView.getMediaPlayerWrapper() != null) {
             mVideoPlayerView.pause();
             mHandler.sendEmptyMessage(UPDATE_VIEW);
@@ -548,9 +568,6 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
                     return;
                 }
                 prepare();
-                if (mStartVideoListener != null) {
-                    mStartVideoListener.onStart();
-                }
             } else {
                 start();
                 mImageView_pause.setVisibility(VISIBLE);
@@ -710,14 +727,18 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
     private void updateView() {
         MediaPlayerWrapper.State currentState = mVideoPlayerView.getCurrentState();
 
-        if(currentState == MediaPlayerWrapper.State.IDLE){
+        if(currentState == MediaPlayerWrapper.State.IDLE) {
             //停止状态
             initControllerView();
             mFrameLayout_controller.setVisibility(INVISIBLE);
             mImageView_play.setVisibility(VISIBLE);
             mImageView_mute.setVisibility(GONE);
             mImageView_volume.setVisibility(VISIBLE);
-        }else if(currentState == MediaPlayerWrapper.State.PREPARING || currentState == MediaPlayerWrapper.State.INITIALIZED){
+        }else if(currentState == MediaPlayerWrapper.State.INITIALIZED){
+            initControllerView();
+            mImageView_play.setVisibility(VISIBLE);
+            mCoverImg.setVisibility(VISIBLE);
+        }else if(currentState == MediaPlayerWrapper.State.PREPARING ){
             //加载中
             initControllerView();
             mProgressBar_loading.setVisibility(VISIBLE);
@@ -745,10 +766,6 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
         }
     }
 
-    public void setStartVideoListener(OnStartVideoListener listener) {
-        mStartVideoListener = listener;
-    }
-
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
@@ -771,11 +788,6 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
 
-    }
-
-
-    public interface OnStartVideoListener {
-        void onStart();
     }
 
     class  SpaceLandDialog extends Dialog {

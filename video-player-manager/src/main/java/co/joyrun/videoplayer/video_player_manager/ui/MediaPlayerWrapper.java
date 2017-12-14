@@ -41,7 +41,6 @@ public abstract class MediaPlayerWrapper
     public static final int POSITION_UPDATE_NOTIFYING_PERIOD = 1000;         // milliseconds
     private ScheduledFuture<?> mFuture;
     private Surface mSurface;
-
     public enum State {
         IDLE,  // seDatasource  之前
         INITIALIZED, // setDataSource  之后
@@ -93,6 +92,24 @@ public abstract class MediaPlayerWrapper
         }
     };
 
+    private final Runnable mOnVideoStartedMessage = new Runnable() {
+        @Override
+        public void run() {
+            if (SHOW_LOGS) Logger.v(TAG, ">> run, onVideoStartMainThread");
+            mListener.onVideoStartMainThread();
+            if (SHOW_LOGS) Logger.v(TAG, "<< run, onVideoStartMainThread");
+        }
+    };
+
+    private final Runnable mOnVideoPauseMessage = new Runnable() {
+        @Override
+        public void run() {
+            if (SHOW_LOGS) Logger.v(TAG, ">> run, onVideoPauseMainThread");
+            mListener.onVideoPauseMainThread();
+            if (SHOW_LOGS) Logger.v(TAG, "<< run, onVideoPauseMainThread");
+        }
+    };
+
     public void prepare() {
         if (SHOW_LOGS) Logger.v(TAG, ">> prepare, mState " + mState);
 
@@ -108,6 +125,7 @@ public abstract class MediaPlayerWrapper
                                 if (mListener != null) {
                                     mMainThreadHandler.post(mOnVideoPreparedMessage);
                                 }
+
                             }
                         });
                         mMediaPlayer.prepareAsync();
@@ -127,42 +145,6 @@ public abstract class MediaPlayerWrapper
         if (SHOW_LOGS) Logger.v(TAG, "<< prepare, mState " + mState);
     }
 
-//    public void prepare() {
-//        if (SHOW_LOGS) Logger.v(TAG, ">> prepare, mState " + mState);
-//
-//        synchronized (mState) {
-//            switch (mState.get()) {
-//                case STOPPED:
-//                case INITIALIZED:
-//                    try {
-//                        mMediaPlayer.prepare();
-//                        mState.set(State.PREPARED);
-//
-//                        if (mListener != null) {
-//                            mMainThreadHandler.post(mOnVideoPreparedMessage);
-//                        }
-//
-//                    } catch (IllegalStateException ex) {
-//                        /** we should not call {@link MediaPlayerWrapper#prepare()} in wrong state so we fall here*/
-//                        throw new RuntimeException(ex);
-//
-//                    } catch (IOException ex){
-//                        onPrepareError(ex);
-//                    }
-//                    break;
-//                case IDLE:
-//                case PREPARING:
-//                case PREPARED:
-//                case STARTED:
-//                case PAUSED:
-//                case PLAYBACK_COMPLETED:
-//                case END:
-//                case ERROR:
-//                    throw new IllegalStateException("prepare, called from illegal state " + mState);
-//            }
-//        }
-//        if (SHOW_LOGS) Logger.v(TAG, "<< prepare, mState " + mState);
-//    }
 
     /**
      * This method propagates error when {@link IOException} is thrown during synchronous {@link #prepare()}
@@ -399,6 +381,10 @@ public abstract class MediaPlayerWrapper
                     startPositionUpdateNotifier();
                     mState.set(State.STARTED);
 
+                    if (mListener != null) {
+                        mMainThreadHandler.post(mOnVideoStartedMessage);
+                    }
+
                     break;
                 case ERROR:
                 case END:
@@ -431,14 +417,18 @@ public abstract class MediaPlayerWrapper
                 case STOPPED:
                 case PREPARED:
                 case END:
-                    throw new IllegalStateException("pause, called from illegal state "  + mState);
+//                    throw new IllegalStateException("pause, called from illegal state "  + mState);
                 case STARTED:
                     mMediaPlayer.pause();
                     mState.set(State.PAUSED);
+                    if (mListener != null) {
+                        mMainThreadHandler.post(mOnVideoPauseMessage);
+                    }
+
                     break;
 
                 case ERROR:
-                    mState.set(State.PAUSED);
+//                    mState.set(State.E);
                     break;
 
             }
@@ -726,6 +716,10 @@ public abstract class MediaPlayerWrapper
         void onVideoSizeChangedMainThread(int width, int height);
 
         void onVideoPreparedMainThread();
+
+        void onVideoStartMainThread();
+
+        void onVideoPauseMainThread();
 
         void onVideoCompletionMainThread();
 
