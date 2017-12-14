@@ -66,7 +66,7 @@ public class VideoPlayerView extends ScalableTextureView
     private String mPath;
     private int mPrecent;
 
-    private boolean mIsAutoPlay = true; //是否自动播放
+    private boolean mIsAutoPlay = false; //是否自动播放
 
     private final ReadyForPlaybackIndicator mReadyForPlaybackIndicator = new ReadyForPlaybackIndicator();
 
