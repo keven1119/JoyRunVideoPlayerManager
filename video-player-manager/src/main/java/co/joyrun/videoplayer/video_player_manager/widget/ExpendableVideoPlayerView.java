@@ -579,6 +579,8 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
                     createDialog().show();
                     return;
                 }
+
+
                 prepare();
             } else {
                 start();

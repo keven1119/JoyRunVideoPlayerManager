@@ -1,8 +1,10 @@
 package co.joyrun.videoplayer.visibility_utils.items;
 
 import android.app.LauncherActivity;
+import android.graphics.Rect;
 import android.view.View;
 
+import co.joyrun.videoplayer.visibility_utils.calculator.helper.CalculatorHelper;
 import co.joyrun.videoplayer.visibility_utils.utils.Config;
 import co.joyrun.videoplayer.visibility_utils.utils.Logger;
 
@@ -38,8 +40,8 @@ public class ListItemData {
         return isAvailable;
     }
 
-    public int getVisibilityPercents(List<? extends ListItem> listItems) {
-        int visibilityPercents = listItems.get(getIndex()).getVisibilityPercents(getView());
+    public int getVisibilityPercents(List listItems,Rect rect) {
+        int visibilityPercents = CalculatorHelper.getVisibilityPercents(getView(),rect);
         if(SHOW_LOGS) Logger.v(TAG, "getVisibilityPercents, visibilityPercents " + visibilityPercents);
         return visibilityPercents;
     }

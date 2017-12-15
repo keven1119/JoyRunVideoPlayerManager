@@ -49,8 +49,8 @@ public class VisibilityUtilsFragment extends Fragment implements VisibilityItem.
             new VisibilityItem("9", this),
             new VisibilityItem("10", this)));
 
-    private final ListItemsVisibilityCalculator mListItemVisibilityCalculator =
-            new SingleListViewItemActiveCalculator(new DefaultSingleItemCalculatorCallback(), mList);
+    private SingleListViewItemActiveCalculator mListItemVisibilityCalculator =
+            new SingleListViewItemActiveCalculator(new DefaultSingleItemCalculatorCallback());
 
     private ItemsPositionGetter mItemsPositionGetter;
 
@@ -76,7 +76,7 @@ public class VisibilityUtilsFragment extends Fragment implements VisibilityItem.
 
         mRecyclerView = (RecyclerView)root.findViewById(R.id.visibility_demo_recycler_view);
 
-        mRecyclerView.setHasFixedSize(true);
+        mListItemVisibilityCalculator.setListItems(mList);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getActivity());

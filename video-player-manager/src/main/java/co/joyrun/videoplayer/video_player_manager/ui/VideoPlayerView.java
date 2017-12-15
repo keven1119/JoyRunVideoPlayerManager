@@ -503,6 +503,7 @@ public class VideoPlayerView extends ScalableTextureView
         for (MediaPlayerWrapper.MainThreadMediaPlayerListener listener : listCopy) {
             listener.onErrorMainThread(what, extra);
         }
+        mMediaPlayer.reset();
     }
 
     private void notifyOnSeekCompleteMainThread(){

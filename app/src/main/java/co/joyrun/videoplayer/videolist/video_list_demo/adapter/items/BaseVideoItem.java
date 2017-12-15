@@ -15,6 +15,7 @@ import co.joyrun.videoplayer.video_player_manager.manager.VideoItem;
 import co.joyrun.videoplayer.video_player_manager.meta.MetaData;
 import co.joyrun.videoplayer.video_player_manager.ui.MediaPlayerWrapper;
 import co.joyrun.videoplayer.video_player_manager.utils.Logger;
+import co.joyrun.videoplayer.video_player_manager.widget.VideoInterfaceV2;
 import co.joyrun.videoplayer.videolist.R;
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.MyVideoHolder;
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.VideoViewHolder;
@@ -60,7 +61,12 @@ public abstract class BaseVideoItem<T extends VideoViewHolder> implements VideoI
     @Override
     public void setActive(View newActiveView, int newActiveViewPosition) {
         T viewHolder = (T) newActiveView.getTag();
-        playNewVideo(new CurrentItemMetaData(newActiveViewPosition, newActiveView), ((T)viewHolder).getPlayer(), mVideoPlayerManager);
+        if(viewHolder != null) {
+            VideoInterfaceV2 player = ((T) viewHolder).getPlayer();
+            if (player != null) {
+                playNewVideo(new CurrentItemMetaData(newActiveViewPosition, newActiveView), ((T) viewHolder).getPlayer(), mVideoPlayerManager);
+            }
+        }
     }
 
     /**
@@ -71,66 +77,7 @@ public abstract class BaseVideoItem<T extends VideoViewHolder> implements VideoI
         stopPlayback(mVideoPlayerManager);
     }
 
-    public View createView(ViewGroup parent, @LayoutRes int layoutId, int screenWidth) throws NoSuchMethodException,IllegalAccessException,
-            InstantiationException,InvocationTargetException{
-        View view = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
-        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        layoutParams.height = screenWidth;
 
-        //创建Viewholder实例
-        Class[] parameterTypes = {View.class};
-        Constructor<T> constructor = clz.getConstructor(parameterTypes);
-        Object[] paramters = {view};
-        T videoViewHolder = constructor.newInstance(paramters);
-
-        view.setTag(videoViewHolder);
-
-        videoViewHolder.mPlayer.addMediaPlayerListener(new MediaPlayerWrapper.MainThreadMediaPlayerListener() {
-            @Override
-            public void onVideoSizeChangedMainThread(int width, int height) {
-            }
-
-            @Override
-            public void onVideoPreparedMainThread() {
-                // When video is prepared it's about to start playback. So we hide the cover
-//                videoViewHolder.mCover.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onVideoStartMainThread() {
-
-            }
-
-            @Override
-            public void onVideoPauseMainThread() {
-
-            }
-
-            @Override
-            public void onVideoCompletionMainThread() {
-            }
-
-            @Override
-            public void onErrorMainThread(int what, int extra) {
-            }
-
-            @Override
-            public void onBufferingUpdateMainThread(int percent) {
-            }
-
-            @Override
-            public void onVideoStoppedMainThread() {
-                // Show the cover when video stopped
-//                videoViewHolder.mCover.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onVideoSeekComplete() {
-
-            }
-        });
-        return view;
-    }
 
     /**
      * This method calculates visibility percentage of currentView.

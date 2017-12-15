@@ -24,6 +24,7 @@ import co.joyrun.videoplayer.videolist.video_list_demo.adapter.items.ItemFactory
 import co.joyrun.videoplayer.visibility_utils.calculator.DefaultSingleItemCalculatorCallback;
 import co.joyrun.videoplayer.visibility_utils.calculator.ListItemsVisibilityCalculator;
 import co.joyrun.videoplayer.visibility_utils.calculator.SingleListViewItemActiveCalculator;
+import co.joyrun.videoplayer.visibility_utils.items.ListItem;
 import co.joyrun.videoplayer.visibility_utils.scroll_utils.ItemsPositionGetter;
 import co.joyrun.videoplayer.visibility_utils.scroll_utils.RecyclerViewItemPositionGetter;
 
@@ -38,14 +39,14 @@ public class VideoRecyclerViewFragment extends Fragment {
     private static final boolean SHOW_LOGS = Config.SHOW_LOGS;
     private static final String TAG = VideoRecyclerViewFragment.class.getSimpleName();
 
-    private ArrayList<BaseVideoItem> mList = new ArrayList<>();
+    private ArrayList mList = new ArrayList<>();
 
     /**
      * Only the one (most visible) view should be active (and playing).
      * To calculate visibility of views we use {@link SingleListViewItemActiveCalculator}
      */
-    private ListItemsVisibilityCalculator mVideoVisibilityCalculator =
-            new SingleListViewItemActiveCalculator(new DefaultSingleItemCalculatorCallback(), mList);
+    private SingleListViewItemActiveCalculator mVideoVisibilityCalculator =
+            new SingleListViewItemActiveCalculator(new DefaultSingleItemCalculatorCallback());
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
@@ -107,13 +108,25 @@ public class VideoRecyclerViewFragment extends Fragment {
 //
 //
         mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
+        mList.add("hahahhahhahaha");
+        mList.add("hahahhahhahaha");
+        mList.add("hahahhahhahaha");
+        mList.add("hahahhahhahaha");
+        mList.add("hahahhahhahaha");
+        mList.add("hahahhahhahaha");
+        mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
+        mList.add("hahahhahhahaha");
+        mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
+        mList.add("hahahhahhahaha");
+        mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
+        mList.add("hahahhahhahaha");
         mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
         mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
+        mList.add("hahahhahhahaha");
         mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
+        mList.add("hahahhahhahaha");
         mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
-        mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
-        mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
-        mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
+        mList.add("hahahhahhahaha");
         mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
         mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
         mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
@@ -126,12 +139,13 @@ public class VideoRecyclerViewFragment extends Fragment {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
+//        mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        mVideoVisibilityCalculator.setListItems(mList);
         VideoRecyclerViewAdapter videoRecyclerViewAdapter = new VideoRecyclerViewAdapter(mVideoPlayerManager, getActivity(), mList);
 
         mRecyclerView.setAdapter(videoRecyclerViewAdapter);

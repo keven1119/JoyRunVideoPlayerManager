@@ -42,8 +42,8 @@ public class VideoListFragment extends Fragment {
      * Only the one (most visible) view should be active (and playing).
      * To calculate visibility of views we use {@link SingleListViewItemActiveCalculator}
      */
-    private final ListItemsVisibilityCalculator mListItemVisibilityCalculator =
-            new SingleListViewItemActiveCalculator(new DefaultSingleItemCalculatorCallback(), mList);
+    private final SingleListViewItemActiveCalculator mListItemVisibilityCalculator =
+            new SingleListViewItemActiveCalculator(new DefaultSingleItemCalculatorCallback());
 
     /**
      * ItemsPositionGetter is used by {@link ListItemsVisibilityCalculator} for getting information about
@@ -106,6 +106,7 @@ public class VideoListFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_video_list_view, container, false);
 
         mListView = (ListView) rootView.findViewById(R.id.list_view);
+        mListItemVisibilityCalculator.setListItems(mList);
         VideoListViewAdapter videoListViewAdapter = new VideoListViewAdapter(mVideoPlayerManager, getActivity(), mList);
         mListView.setAdapter(videoListViewAdapter);
 

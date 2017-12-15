@@ -43,26 +43,26 @@ public class VideoListViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View resultView = null;
-        try {
-            BaseVideoItem videoItem = mList.get(position);
-            if (convertView == null) {
-                convertView = videoItem.createView(parent, R.layout.video_item, mContext.getResources().getDisplayMetrics().widthPixels);
-
-            }
-                resultView = convertView;
-
-            videoItem.update(position, (VideoViewHolder) resultView.getTag(), mVideoPlayerManager);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } finally {
+//        try {
+//            BaseVideoItem videoItem = mList.get(position);
+//            if (convertView == null) {
+////                convertView = videoItem.createView(parent, R.layout.video_item, mContext.getResources().getDisplayMetrics().widthPixels);
+//
+//            }
+//                resultView = convertView;
+//
+//            videoItem.update(position, (VideoViewHolder) resultView.getTag(), mVideoPlayerManager);
+//        } catch (NoSuchMethodException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        } catch (InstantiationException e) {
+//            e.printStackTrace();
+//        } catch (InvocationTargetException e) {
+//            e.printStackTrace();
+//        } finally {
             return resultView;
-        }
+//        }
     }
 
 }
