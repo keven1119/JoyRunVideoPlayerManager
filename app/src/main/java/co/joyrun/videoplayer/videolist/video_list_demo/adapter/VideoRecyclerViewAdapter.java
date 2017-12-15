@@ -16,6 +16,7 @@ import co.joyrun.videoplayer.videolist.BuildConfig;
 import co.joyrun.videoplayer.videolist.R;
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.MyVideoHolder;
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.TextHolder;
+import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.ViewHolder;
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.items.BaseVideoItem;
 import co.joyrun.videoplayer.video_player_manager.manager.VideoPlayerManager;
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.items.CustomerItem;
@@ -47,15 +48,25 @@ public class VideoRecyclerViewAdapter extends RecyclerView.Adapter {
 
 
         if(type == CUSTOMER) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.video_item, viewGroup, false);
-            ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-            layoutParams.height = mContext.getResources().getDisplayMetrics().widthPixels;
+            View view = null;
+            try {
+                view = CustomerItem.createView(viewGroup, R.layout.video_item, MyVideoHolder.class, mContext.getResources().getDisplayMetrics().widthPixels);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
 
-            MyVideoHolder myVideoHolder = new MyVideoHolder(view);
+            if(view != null){
+                return (RecyclerView.ViewHolder) view.getTag();
+            }else {
+                return null;
+            }
 
-            view.setTag(myVideoHolder);
-
-            return myVideoHolder;
 
         }else if(type == TEXT){
 

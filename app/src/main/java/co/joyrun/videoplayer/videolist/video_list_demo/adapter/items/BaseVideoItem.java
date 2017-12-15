@@ -21,6 +21,7 @@ import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.MyVideoHo
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.VideoViewHolder;
 import co.joyrun.videoplayer.video_player_manager.manager.VideoPlayerManager;
 import co.joyrun.videoplayer.video_player_manager.meta.CurrentItemMetaData;
+import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.ViewHolder;
 import co.joyrun.videoplayer.visibility_utils.items.ListItem;
 
 public abstract class BaseVideoItem<T extends VideoViewHolder> implements VideoItem, ListItem{
@@ -77,7 +78,20 @@ public abstract class BaseVideoItem<T extends VideoViewHolder> implements VideoI
         stopPlayback(mVideoPlayerManager);
     }
 
+    public static View createView(ViewGroup parent, @LayoutRes int layoutId,Class holderClass, int screenWidth) throws NoSuchMethodException,IllegalAccessException,
+            InstantiationException,InvocationTargetException{
+        View view = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.height = screenWidth;
 
+        //创建Viewholder实例
+        Class[] parameterTypes = {View.class};
+        Constructor constructor = holderClass.getConstructor(parameterTypes);
+        Object[] paramters = {view};
+        Object o = constructor.newInstance(paramters);
+        view.setTag(o);
+        return view;
+    }
 
     /**
      * This method calculates visibility percentage of currentView.

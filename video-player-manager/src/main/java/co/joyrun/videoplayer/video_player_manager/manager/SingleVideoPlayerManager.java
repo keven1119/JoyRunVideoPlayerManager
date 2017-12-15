@@ -406,7 +406,9 @@ public class SingleVideoPlayerManager implements VideoPlayerManager<MetaData>, V
         if(SHOW_LOGS) Logger.v(TAG, ">> onPlayerItemChanged");
 
         mCurrentPlayer = videoPlayerView;
-        mPlayerItemChangeListener.onPlayerItemChanged(currentItemMetaData);
+        if(mPlayerItemChangeListener != null) {
+            mPlayerItemChangeListener.onPlayerItemChanged(currentItemMetaData);
+        }
 
         if(SHOW_LOGS) Logger.v(TAG, "<< onPlayerItemChanged");
     }

@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import co.joyrun.videoplayer.videolist.R;
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.VideoViewHolder;
 import co.joyrun.videoplayer.video_player_manager.manager.VideoPlayerManager;
+import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.ViewHolder;
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.items.BaseVideoItem;
 
 import java.lang.reflect.InvocationTargetException;
@@ -43,26 +44,25 @@ public class VideoListViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View resultView = null;
-//        try {
-//            BaseVideoItem videoItem = mList.get(position);
-//            if (convertView == null) {
-////                convertView = videoItem.createView(parent, R.layout.video_item, mContext.getResources().getDisplayMetrics().widthPixels);
-//
-//            }
-//                resultView = convertView;
-//
-//            videoItem.update(position, (VideoViewHolder) resultView.getTag(), mVideoPlayerManager);
-//        } catch (NoSuchMethodException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        } catch (InstantiationException e) {
-//            e.printStackTrace();
-//        } catch (InvocationTargetException e) {
-//            e.printStackTrace();
-//        } finally {
-            return resultView;
-//        }
+        BaseVideoItem videoItem = mList.get(position);
+        if (convertView == null) {
+            try {
+                convertView = BaseVideoItem.createView(parent, R.layout.video_item, VideoViewHolder.class, mContext.getResources().getDisplayMetrics().widthPixels);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+        resultView = convertView;
+        videoItem.update(position, (VideoViewHolder) resultView.getTag(), mVideoPlayerManager);
+
+        return resultView;
+
     }
 
 }
