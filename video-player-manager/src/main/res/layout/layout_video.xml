@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:id="@+id/video_play_whole_layout"
+    android:id="@+id/video_play_video_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!--<SurfaceView-->
         <!--android:id="@+id/surface"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"/>-->
-
-    <FrameLayout
-        android:id="@+id/video_play_video_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <co.joyrun.videoplayer.video_player_manager.ui.VideoPlayerView
             android:id="@+id/video_play_view"
@@ -48,5 +43,4 @@
             android:layout_gravity="center"
             android:visibility="gone"/>
 
-    </FrameLayout>
 </FrameLayout>

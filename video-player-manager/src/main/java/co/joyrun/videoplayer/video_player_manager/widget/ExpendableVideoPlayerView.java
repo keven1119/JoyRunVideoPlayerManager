@@ -67,7 +67,7 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
     private TextView mTextView_currentTime, mTextView_totalTime;
     private FrameLayout mFrameLayout_controller;
     private FrameLayout mVideo_play_video_layout;
-    private FrameLayout mVideo_play_whole_layout;
+//    private FrameLayout mVideo_play_whole_layout;
     private Activity mActivity;
     private int mHeight, mWidth;
     private ProgressBar mProgressBar_loading;
@@ -109,7 +109,7 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
         mTextView_totalTime = (TextView) mRoot.findViewById(R.id.tv_video_totaltime);
         mFrameLayout_controller = (FrameLayout) mRoot.findViewById(R.id.layout_controller);
         mVideo_play_video_layout = mRoot.findViewById(R.id.video_play_video_layout);
-        mVideo_play_whole_layout = mRoot.findViewById(R.id.video_play_whole_layout);
+//        mVideo_play_whole_layout = mRoot.findViewById(R.id.video_play_whole_layout);
 
         mSeekBar_progress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -819,7 +819,7 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
         public void show() {
             //当切换横竖屏时需要先暂停播放，否则mediaplayer 会报  error (1, -19)  ，error (1, -38)
             saveCurrentState();
-            mVideo_play_whole_layout.removeView(mVideo_play_video_layout);
+            ExpendableVideoPlayerView.this.removeView(mVideo_play_video_layout);
             dialogContainer.addView(mVideo_play_video_layout);
             super.show();
             mHandler.sendEmptyMessageDelayed(UPDATE_CONFIGURATION_VIEW,100);
@@ -853,7 +853,7 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
             //当切换横竖屏时需要先暂停播放，否则mediaplayer 会报  error (1, -19)  ，error (1, -38)
             saveCurrentState();
             dialogContainer.removeView(mVideo_play_video_layout);
-            mVideo_play_whole_layout.addView(mVideo_play_video_layout);
+            ExpendableVideoPlayerView.this.addView(mVideo_play_video_layout);
             super.dismiss();
             mHandler.sendEmptyMessageDelayed(UPDATE_CONFIGURATION_VIEW,100);
 //            mHandler.sendEmptyMessage(UPDATE_CONFIGURATION_VIEW);
