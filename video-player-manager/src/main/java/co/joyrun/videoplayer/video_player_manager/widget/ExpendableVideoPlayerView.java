@@ -15,7 +15,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -36,9 +35,6 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.joyrun.videoplayer.video_player_manager.R;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import co.joyrun.videoplayer.video_player_manager.ui.MediaPlayerWrapper;
 import co.joyrun.videoplayer.video_player_manager.ui.VideoPlayerView;
@@ -91,7 +87,7 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
 
         mActivity = (Activity) context;
         audioManager = (AudioManager) mActivity.getSystemService(Service.AUDIO_SERVICE);
-        mRoot = inflate(context, R.layout.layout_video, this);
+        mRoot = inflate(context, R.layout.layout_expendable_video_player, this);
         mSeekBar_progress = (SeekBar) mRoot.findViewById(R.id.video_progress);
         mImageView_expend = (ImageView) mRoot.findViewById(R.id.imageview_expend);
         mImageView_volume = (ImageView) mRoot.findViewById(R.id.imageview_volume);
