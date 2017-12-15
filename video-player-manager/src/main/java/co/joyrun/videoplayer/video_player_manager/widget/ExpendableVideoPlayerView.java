@@ -101,7 +101,7 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
         mImageView_mute = (ImageView) mRoot.findViewById(R.id.imageview_mute);
         mImageView_resize = (ImageView) mRoot.findViewById(R.id.imageview_resize);
         mImageview_back = (ImageView) mRoot.findViewById(R.id.imageview_back);
-        mVideoPlayerView = (VideoPlayerView)mRoot.findViewById(R.id.video_play_view);
+        mVideoPlayerView = (VideoPlayerView)mRoot.findViewById(R.id.video_player_view);
         mProgressBar_loading = (ProgressBar) mRoot.findViewById(R.id.progress_loading);
         mLayout_video = (LinearLayout) mRoot.findViewById(R.id.layout_video);
         mCover = mRoot.findViewById(R.id.view_video);

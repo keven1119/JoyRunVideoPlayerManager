@@ -10,7 +10,7 @@
         <!--android:layout_height="match_parent"/>-->
 
         <co.joyrun.videoplayer.video_player_manager.ui.VideoPlayerView
-            android:id="@+id/video_play_view"
+            android:id="@+id/video_player_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
