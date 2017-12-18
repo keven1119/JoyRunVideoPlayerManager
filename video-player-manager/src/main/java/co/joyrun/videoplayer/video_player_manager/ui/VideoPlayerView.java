@@ -316,6 +316,7 @@ public class VideoPlayerView extends ScalableTextureView
 
         if(mViewHandlerBackgroundThread != null){
             mViewHandlerBackgroundThread.clear();
+            mViewHandlerBackgroundThread.postQuit();
             mViewHandlerBackgroundThread = null;
         }
 
@@ -830,8 +831,10 @@ public class VideoPlayerView extends ScalableTextureView
 
         if (SHOW_LOGS) Logger.v(TAG, ">> onDetachedFromWindow, isInEditMode " + isInEditMode);
         if(!isInEditMode){
-            mViewHandlerBackgroundThread.postQuit();
-            mViewHandlerBackgroundThread = null;
+            if(mViewHandlerBackgroundThread != null) {
+                mViewHandlerBackgroundThread.postQuit();
+                mViewHandlerBackgroundThread = null;
+            }
         }
         if (SHOW_LOGS) Logger.v(TAG, "<< onDetachedFromWindow");
     }

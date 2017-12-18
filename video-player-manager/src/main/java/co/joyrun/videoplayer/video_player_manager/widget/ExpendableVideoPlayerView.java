@@ -139,7 +139,7 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
         init();
     }
 
-    public void init() {
+    private void init() {
         if (mCoverPath != null) {
             setCover(mCoverPath);
         }
