@@ -118,8 +118,11 @@ public abstract class MediaPlayerWrapper
         return isAutoPlay;
     }
 
-    public void prepare(boolean isAutoPlay) {
+    protected void setAutoPlay(boolean isAutoPlay){
         this.isAutoPlay = isAutoPlay;
+    }
+
+    public void prepare() {
         if (SHOW_LOGS) Logger.v(TAG, ">> prepare, mState " + mState);
 
         synchronized (mState) {

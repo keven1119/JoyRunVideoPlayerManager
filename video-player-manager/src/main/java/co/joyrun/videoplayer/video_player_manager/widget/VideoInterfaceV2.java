@@ -18,9 +18,9 @@ public interface VideoInterfaceV2 {
 
     public void clearPlayerInstance();
 
-    public void createNewPlayerInstance();
+    public void createNewPlayerInstance(boolean isAutoPlay);
 
-    public void prepare(boolean isAutoPlay);
+    public void prepare();
 
     public void stop();
 

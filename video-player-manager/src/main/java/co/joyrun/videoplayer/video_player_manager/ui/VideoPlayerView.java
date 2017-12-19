@@ -193,7 +193,7 @@ public class VideoPlayerView extends ScalableTextureView
         if (SHOW_LOGS) Logger.v(TAG, "<< clearPlayerInstance");
     }
 
-    public void createNewPlayerInstance() {
+    public void createNewPlayerInstance(boolean isAutoPlay) {
         if (SHOW_LOGS) Logger.v(TAG, ">> createNewPlayerInstance");
 
         if (SHOW_LOGS) Logger.v(TAG, "createNewPlayerInstance main Looper " + Looper.getMainLooper());
@@ -217,17 +217,18 @@ public class VideoPlayerView extends ScalableTextureView
                 mMediaPlayer.setMainThreadMediaPlayerListener(this);
                 mMediaPlayer.setVideoStateListener(this);
                 mMediaPlayer.seekToPercent(mPrecent);
+                mMediaPlayer.setAutoPlay(isAutoPlay);
                 setAudioStreamType(AudioManager.STREAM_MUSIC);
             }
         }
         if (SHOW_LOGS) Logger.v(TAG, "<< createNewPlayerInstance");
     }
 
-    public void prepare(boolean isAutoPlay) {
+    public void prepare() {
 //        if(checkThread()) {
             synchronized (mReadyForPlaybackIndicator) {
                 if(mMediaPlayer != null) {
-                    mMediaPlayer.prepare(isAutoPlay);
+                    mMediaPlayer.prepare();
                 }
             }
 //        }
@@ -501,7 +502,9 @@ public class VideoPlayerView extends ScalableTextureView
         for (MediaPlayerWrapper.MainThreadMediaPlayerListener listener : listCopy) {
             listener.onErrorMainThread(what, extra);
         }
-        mMediaPlayer.reset();
+        if(mMediaPlayer != null) {
+            mMediaPlayer.reset();
+        }
     }
 
     private void notifyOnSeekCompleteMainThread(){

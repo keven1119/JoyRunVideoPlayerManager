@@ -416,12 +416,12 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
         return dialog;
     }
 
-    public void prepare(boolean isAutoPlay) {
+    public void prepare() {
         if (!isWifiConnected()) {
             createDialog().show();
             return;
         }
-        mVideoPlayerView.prepare(isAutoPlay);
+        mVideoPlayerView.prepare();
         mHandler.sendEmptyMessage(UPDATE_VIEW);
     }
 
@@ -473,8 +473,8 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
     }
 
     @Override
-    public void createNewPlayerInstance() {
-        mVideoPlayerView.createNewPlayerInstance();
+    public void createNewPlayerInstance(boolean isAutoPlay) {
+        mVideoPlayerView.createNewPlayerInstance(isAutoPlay);
     }
 
     public void pause() {
@@ -575,7 +575,7 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
                     createDialog().show();
                     return;
                 }
-                prepare(isAutoPlay());
+                prepare();
             } else {
                 start();
                 mImageView_pause.setVisibility(VISIBLE);

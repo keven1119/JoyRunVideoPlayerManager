@@ -277,13 +277,13 @@ public class SingleVideoPlayerManager implements VideoPlayerManager<MetaData>, V
 
         if(isPrePrepare) {
             mPlayerHandler.addMessages(Arrays.asList(
-                    new CreateNewPlayerInstance(videoPlayerView, this),
+                    new CreateNewPlayerInstance(videoPlayerView, this, isAutoPlay),
                     new SetUrlDataSourceMessage(videoPlayerView, videoUrl, this),
-                    new Prepare(videoPlayerView, this, isAutoPlay)
+                    new Prepare(videoPlayerView, this)
             ));
         }else {
             mPlayerHandler.addMessages(Arrays.asList(
-                    new CreateNewPlayerInstance(videoPlayerView, this),
+                    new CreateNewPlayerInstance(videoPlayerView, this, isAutoPlay),
                     new SetUrlDataSourceMessage(videoPlayerView, videoUrl, this)
             ));
         }
@@ -295,15 +295,15 @@ public class SingleVideoPlayerManager implements VideoPlayerManager<MetaData>, V
 
         if(isPrePrepare) {
             mPlayerHandler.addMessages(Arrays.asList(
-                    new CreateNewPlayerInstance(videoPlayerView, this),
+                    new CreateNewPlayerInstance(videoPlayerView, this, isAutoPlay),
                     new SetAssetsDataSourceMessage(videoPlayerView, assetFileDescriptor, this),
-                     new Prepare(videoPlayerView, this, isAutoPlay)
+                     new Prepare(videoPlayerView, this)
 //                ,
 //                new Start(videoPlayerView, this)
             ));
         }else {
             mPlayerHandler.addMessages(Arrays.asList(
-                    new CreateNewPlayerInstance(videoPlayerView, this),
+                    new CreateNewPlayerInstance(videoPlayerView, this, isAutoPlay),
                     new SetAssetsDataSourceMessage(videoPlayerView, assetFileDescriptor, this)
             ));
         }

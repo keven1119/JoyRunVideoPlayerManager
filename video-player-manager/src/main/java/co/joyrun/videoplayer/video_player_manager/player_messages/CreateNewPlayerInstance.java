@@ -8,14 +8,16 @@ import co.joyrun.videoplayer.video_player_manager.widget.VideoInterfaceV2;
  * This PlayerMessage creates new MediaPlayer instance that will be used inside {@link VideoInterfaceV2}
  */
 public class CreateNewPlayerInstance extends PlayerMessage {
+    private boolean isAutoPlay = false;
 
-    public CreateNewPlayerInstance(VideoInterfaceV2 videoPlayerView, VideoPlayerManagerCallback callback) {
+    public CreateNewPlayerInstance(VideoInterfaceV2 videoPlayerView, VideoPlayerManagerCallback callback, boolean isAutoPlay) {
         super(videoPlayerView, callback);
+        this.isAutoPlay = isAutoPlay;
     }
 
     @Override
     protected void performAction(VideoInterfaceV2 currentPlayer) {
-        currentPlayer.createNewPlayerInstance();
+        currentPlayer.createNewPlayerInstance(isAutoPlay);
     }
 
     @Override
