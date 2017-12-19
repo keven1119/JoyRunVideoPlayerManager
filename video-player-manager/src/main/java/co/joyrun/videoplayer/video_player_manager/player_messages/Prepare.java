@@ -18,15 +18,17 @@ public class Prepare extends PlayerMessage{
     private static final String TAG = Prepare.class.getSimpleName();
 
     private PlayerMessageState mResultPlayerMessageState;
+    private boolean isAutoPlay;
 
-    public Prepare(VideoInterfaceV2 videoPlayerView, VideoPlayerManagerCallback callback) {
+    public Prepare(VideoInterfaceV2 videoPlayerView, VideoPlayerManagerCallback callback,boolean isAutoPlay) {
         super(videoPlayerView, callback);
+        this.isAutoPlay = isAutoPlay;
     }
 
     @Override
     protected void performAction(VideoInterfaceV2 currentPlayer) {
 
-        currentPlayer.prepare();
+        currentPlayer.prepare(isAutoPlay);
 
         MediaPlayerWrapper.State resultOfPrepare = currentPlayer.getCurrentState();
         if (SHOW_LOGS) Logger.v(TAG, "resultOfPrepare " + resultOfPrepare);

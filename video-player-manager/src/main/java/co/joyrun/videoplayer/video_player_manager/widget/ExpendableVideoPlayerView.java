@@ -227,15 +227,12 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
         mVideoPlayerView.seekTo(mProgress);
     }
 
-
-    public boolean isAutoPlay(){
-        return mVideoPlayerView.isAutoPlay();
+    public boolean isAutoPlay() {
+        if(mVideoPlayerView != null){
+            return mVideoPlayerView.isAutoPlay();
+        }
+        return false;
     }
-
-    public void autoPlay(boolean autoPlay){
-       mVideoPlayerView.autoPlay(autoPlay);
-    }
-
 
     @Override
     public void onVideoSizeChangedMainThread(int width, int height) {
@@ -245,7 +242,6 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
     @Override
     public void onVideoPreparedMainThread() {
         initText();
-        start();
         mHandler.sendEmptyMessage(UPDATE_VIEW);
     }
 
@@ -420,8 +416,12 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
         return dialog;
     }
 
-    public void prepare() {
-        mVideoPlayerView.prepare();
+    public void prepare(boolean isAutoPlay) {
+        if (!isWifiConnected()) {
+            createDialog().show();
+            return;
+        }
+        mVideoPlayerView.prepare(isAutoPlay);
         mHandler.sendEmptyMessage(UPDATE_VIEW);
     }
 
@@ -575,9 +575,7 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
                     createDialog().show();
                     return;
                 }
-
-
-                prepare();
+                prepare(isAutoPlay());
             } else {
                 start();
                 mImageView_pause.setVisibility(VISIBLE);

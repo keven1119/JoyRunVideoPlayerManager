@@ -48,7 +48,28 @@ public class SingleVideoPlayerManager implements VideoPlayerManager<MetaData>, V
     private VideoInterfaceV2 mCurrentPlayer = null;
     private PlayerMessageState mCurrentPlayerState = PlayerMessageState.IDLE;
 
-//    private boolean isAutoPlay = true;
+    private boolean isAutoPlay = false;
+    private boolean isPrePrepare = false;
+
+    @Override
+    public boolean isAutoPlay() {
+        return isAutoPlay;
+    }
+
+    @Override
+    public void setAutoPlay(boolean autoPlay) {
+        isAutoPlay = autoPlay;
+    }
+
+    @Override
+    public boolean isPrePrepare() {
+        return isPrePrepare;
+    }
+
+    @Override
+    public void setPrePrepare(boolean prePrepare) {
+        isPrePrepare = prePrepare;
+    }
 
     public SingleVideoPlayerManager(PlayerItemChangeListener playerItemChangeListener) {
         mPlayerItemChangeListener = playerItemChangeListener;
@@ -254,31 +275,29 @@ public class SingleVideoPlayerManager implements VideoPlayerManager<MetaData>, V
     private void startPlayback(VideoInterfaceV2 videoPlayerView, String videoUrl) {
         if(SHOW_LOGS) Logger.v(TAG, "startPlayback");
 
-        if(videoPlayerView.isAutoPlay()){
+        if(isPrePrepare) {
             mPlayerHandler.addMessages(Arrays.asList(
                     new CreateNewPlayerInstance(videoPlayerView, this),
                     new SetUrlDataSourceMessage(videoPlayerView, videoUrl, this),
-                    new Prepare(videoPlayerView, this)
+                    new Prepare(videoPlayerView, this, isAutoPlay)
             ));
         }else {
-
             mPlayerHandler.addMessages(Arrays.asList(
                     new CreateNewPlayerInstance(videoPlayerView, this),
                     new SetUrlDataSourceMessage(videoPlayerView, videoUrl, this)
-//                ,
-//                new Start(videoPlayerView, this)
             ));
         }
     }
 
+
     private void startPlayback(VideoInterfaceV2 videoPlayerView, AssetFileDescriptor assetFileDescriptor) {
         if(SHOW_LOGS) Logger.v(TAG, "startPlayback");
 
-        if(videoPlayerView.isAutoPlay()) {
+        if(isPrePrepare) {
             mPlayerHandler.addMessages(Arrays.asList(
                     new CreateNewPlayerInstance(videoPlayerView, this),
                     new SetAssetsDataSourceMessage(videoPlayerView, assetFileDescriptor, this),
-                    new Prepare(videoPlayerView, this)
+                     new Prepare(videoPlayerView, this, isAutoPlay)
 //                ,
 //                new Start(videoPlayerView, this)
             ));
@@ -286,8 +305,6 @@ public class SingleVideoPlayerManager implements VideoPlayerManager<MetaData>, V
             mPlayerHandler.addMessages(Arrays.asList(
                     new CreateNewPlayerInstance(videoPlayerView, this),
                     new SetAssetsDataSourceMessage(videoPlayerView, assetFileDescriptor, this)
-//                ,
-//                new Start(videoPlayerView, this)
             ));
         }
     }

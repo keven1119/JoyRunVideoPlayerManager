@@ -65,6 +65,7 @@ public abstract class MediaPlayerWrapper
     private VideoStateListener mVideoStateListener;
 
     private ScheduledExecutorService mPositionUpdateNotifier = Executors.newScheduledThreadPool(1);
+    private boolean isAutoPlay = false;
 
     protected MediaPlayerWrapper(MediaPlayer mediaPlayer) {
         TAG = "" + this;
@@ -113,7 +114,12 @@ public abstract class MediaPlayerWrapper
         }
     };
 
-    public void prepare() {
+    protected boolean isAutoPlay() {
+        return isAutoPlay;
+    }
+
+    public void prepare(boolean isAutoPlay) {
+        this.isAutoPlay = isAutoPlay;
         if (SHOW_LOGS) Logger.v(TAG, ">> prepare, mState " + mState);
 
         synchronized (mState) {
@@ -127,6 +133,14 @@ public abstract class MediaPlayerWrapper
                                 mState.set(State.PREPARED);
                                 if (mListener != null) {
                                     mMainThreadHandler.post(mOnVideoPreparedMessage);
+                                }
+
+                                if(MediaPlayerWrapper.this.isAutoPlay){
+                                    start();
+
+                                    if (mListener != null) {
+                                        mMainThreadHandler.post(mOnVideoStartedMessage);
+                                    }
                                 }
 
                             }
@@ -151,7 +165,7 @@ public abstract class MediaPlayerWrapper
 
 
     /**
-     * This method propagates error when {@link IOException} is thrown during synchronous {@link #prepare()}
+     * This method propagates error when {@link IOException} is thrown during synchronous {@link #prepare(boolean)}
      * @param ex
      */
     private void onPrepareError(IOException ex) {

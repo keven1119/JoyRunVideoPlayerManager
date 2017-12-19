@@ -67,8 +67,6 @@ public class VideoPlayerView extends ScalableTextureView
     private String mPath;
     private int mPrecent;
 
-    private boolean mIsAutoPlay = false; //是否自动播放
-
     private final ReadyForPlaybackIndicator mReadyForPlaybackIndicator = new ReadyForPlaybackIndicator();
 
     private Set<MediaPlayerWrapper.MainThreadMediaPlayerListener> mMediaPlayerMainThreadListeners = new HashSet<>();
@@ -128,6 +126,13 @@ public class VideoPlayerView extends ScalableTextureView
     public VideoPlayerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initView();
+    }
+
+    public boolean isAutoPlay() {
+        if(mMediaPlayer != null){
+            return mMediaPlayer.isAutoPlay();
+        }
+        return false;
     }
 
     /**
@@ -218,11 +223,11 @@ public class VideoPlayerView extends ScalableTextureView
         if (SHOW_LOGS) Logger.v(TAG, "<< createNewPlayerInstance");
     }
 
-    public void prepare() {
+    public void prepare(boolean isAutoPlay) {
 //        if(checkThread()) {
             synchronized (mReadyForPlaybackIndicator) {
                 if(mMediaPlayer != null) {
-                    mMediaPlayer.prepare();
+                    mMediaPlayer.prepare(isAutoPlay);
                 }
             }
 //        }
@@ -329,14 +334,6 @@ public class VideoPlayerView extends ScalableTextureView
         mLocalSurfaceTextureListener = null;
         mVideoStateListener = null;
         mMediaPlayerListenerBackgroundThread = null;
-    }
-
-    public boolean isAutoPlay(){
-        return mIsAutoPlay;
-    }
-
-    public void autoPlay(boolean autoPlay){
-        mIsAutoPlay = autoPlay;
     }
 
     @Override

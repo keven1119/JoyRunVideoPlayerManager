@@ -41,4 +41,29 @@ public interface VideoPlayerManager<T extends MetaData> {
      * Call it if you no longer need the player
      */
     void resetMediaPlayer();
+
+    /**
+     * 自动播放
+     * @return
+     */
+    public boolean isAutoPlay() ;
+
+    /**
+     * 自动播放
+     */
+    public void setAutoPlay(boolean autoPlay) ;
+
+
+    /**
+     * 是否预加载
+     * @return
+     */
+    public boolean isPrePrepare();
+
+    /**
+     * 是否预加载
+     */
+    public void setPrePrepare(boolean prePrepare);
+
+
 }

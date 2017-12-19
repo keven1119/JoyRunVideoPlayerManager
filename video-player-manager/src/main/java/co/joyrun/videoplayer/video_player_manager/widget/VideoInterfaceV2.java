@@ -20,7 +20,7 @@ public interface VideoInterfaceV2 {
 
     public void createNewPlayerInstance();
 
-    public void prepare();
+    public void prepare(boolean isAutoPlay);
 
     public void stop();
 
@@ -60,7 +60,7 @@ public interface VideoInterfaceV2 {
 
     public AssetFileDescriptor getAssetFileDescriptorDataSource();
 
-    public boolean isAutoPlay();
-
-    public void autoPlay(boolean autoPlay);
+//    public boolean isAutoPlay();
+//
+//    public void autoPlay(boolean autoPlay);
 }

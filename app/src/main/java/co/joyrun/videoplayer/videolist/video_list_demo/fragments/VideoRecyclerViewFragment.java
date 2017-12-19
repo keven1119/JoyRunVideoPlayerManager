@@ -73,40 +73,14 @@ public class VideoRecyclerViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-//        mVideoPlayerManager.setAutoPlay(true);
-
-//        try {
-//            mList.add(ItemFactory.createItemFromAsset("video_sample_1.mp4", R.drawable.video_sample_1_pic, getActivity(), mVideoPlayerManager));
-//            mList.add(ItemFactory.createItemFromAsset("video_sample_2.mp4", R.drawable.video_sample_2_pic, getActivity(), mVideoPlayerManager));
-//            mList.add(ItemFactory.createItemFromAsset("video_sample_3.mp4", R.drawable.video_sample_3_pic, getActivity(), mVideoPlayerManager));
-//            mList.add(ItemFactory.createItemFromAsset("video_sample_4.mp4", R.drawable.video_sample_4_pic, getActivity(), mVideoPlayerManager));
-//
-//            mList.add(ItemFactory.createItemFromAsset("video_sample_1.mp4", R.drawable.video_sample_1_pic, getActivity(), mVideoPlayerManager));
-//            mList.add(ItemFactory.createItemFromAsset("video_sample_2.mp4", R.drawable.video_sample_2_pic, getActivity(), mVideoPlayerManager));
-//            mList.add(ItemFactory.createItemFromAsset("video_sample_3.mp4", R.drawable.video_sample_3_pic, getActivity(), mVideoPlayerManager));
-//            mList.add(ItemFactory.createItemFromAsset("video_sample_4.mp4", R.drawable.video_sample_4_pic, getActivity(), mVideoPlayerManager));
-//
-//            mList.add(ItemFactory.createItemFromAsset("video_sample_1.mp4", R.drawable.video_sample_1_pic, getActivity(), mVideoPlayerManager));
-//            mList.add(ItemFactory.createItemFromAsset("video_sample_2.mp4", R.drawable.video_sample_2_pic, getActivity(), mVideoPlayerManager));
-//            mList.add(ItemFactory.createItemFromAsset("video_sample_3.mp4", R.drawable.video_sample_3_pic, getActivity(), mVideoPlayerManager));
-//            mList.add(ItemFactory.createItemFromAsset("video_sample_4.mp4", R.drawable.video_sample_4_pic, getActivity(), mVideoPlayerManager));
-//
-//            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_1_pic));
-//            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_2_pic));
-//            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_3_pic));
-//            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_4_pic));
-//            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_1_pic));
-//            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_2_pic));
-//            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_3_pic));
-//            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_4_pic));
-//            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_1_pic));
-//            mList.add(new DirectLinkVideoItem("hello", "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",mVideoPlayerManager, Picasso.with(getActivity()),R.drawable.video_sample_2_pic));
-
         CustomerItem.MyVideoItem myVideoItem = new CustomerItem.MyVideoItem();
         myVideoItem.setVideoUrl("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4");
         myVideoItem.setCoverUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1512133829765&di=aa6cfb825d8c8ed1e401222190a811a2&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D2760457749%2C4161462131%26fm%3D214%26gp%3D0.jpg");
 //
 //
+        mVideoPlayerManager.setPrePrepare(true);
+        mVideoPlayerManager.setAutoPlay(true);
+
         mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
         mList.add("hahahhahhahaha");
         mList.add("hahahhahhahaha");
@@ -130,18 +104,10 @@ public class VideoRecyclerViewFragment extends Fragment {
         mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
         mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
         mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
-// } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
 
         View rootView = inflater.inflate(R.layout.fragment_video_recycler_view, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-//        mRecyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 

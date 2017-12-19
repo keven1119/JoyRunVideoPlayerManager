@@ -100,10 +100,8 @@ public class VideoPlayerManagerFragment extends Fragment {
 //
 //        Picasso.with(getActivity()).load(R.drawable.video_sample_1_pic).into(mVideoCover);
 //        Picasso.with(getActivity()).load(R.drawable.video_sample_2_pic).into(mVideoCover2);
-
-
-        mExpendableVideoPlayer_View_1.autoPlay(false);
-
+        mVideoPlayerManager.setAutoPlay(true);
+        mVideoPlayerManager.setPrePrepare(true);
         mVideoPlayerManager.playNewVideo(null, mExpendableVideoPlayer_View_1, mVideoFileDecriptor_sample_1);
 //        mVideoPlayerManager.playNewVideo(null, mExpendableVideoPlayer_View_2, mVideoFileDecriptor_sample_2);
 
