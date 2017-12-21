@@ -206,7 +206,13 @@ public class VideoPlayerView extends ScalableTextureView
         if(checkThread()) {
             synchronized (mReadyForPlaybackIndicator) {
 
-                mMediaPlayer = new MediaPlayerWrapperImpl();
+                if (mMediaPlayer != null) {
+                    mMediaPlayer.close();
+                    mMediaPlayer.release();
+                    mMediaPlayer.clearAll();
+                }else {
+                    mMediaPlayer = new MediaPlayerWrapperImpl();
+                }
 
                 mReadyForPlaybackIndicator.setVideoSize(null, null);
                 mReadyForPlaybackIndicator.setFailedToPrepareUiForPlayback(false);
@@ -702,7 +708,10 @@ public class VideoPlayerView extends ScalableTextureView
     }
 
     public int getCurrentPrecent() {
-        return mMediaPlayer.getCurrentPosition();
+        if(mMediaPlayer != null) {
+            return mMediaPlayer.getCurrentPosition();
+        }
+        return 0;
     }
 
     @Override

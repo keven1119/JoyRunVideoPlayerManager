@@ -30,7 +30,7 @@ public class AssetVideoItem extends BaseVideoItem<VideoViewHolder>{
     }
 
     @Override
-    public void update(int position, final VideoViewHolder viewHolder, VideoPlayerManager videoPlayerManager) {
+    public void update(int position,  VideoViewHolder viewHolder, VideoPlayerManager videoPlayerManager) {
         if(SHOW_LOGS) Logger.v(TAG, "update, position " + position);
 
 //        viewHolder.mTitle.setText(mTitle);

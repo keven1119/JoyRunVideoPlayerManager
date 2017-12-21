@@ -10,7 +10,7 @@ import co.joyrun.videoplayer.videolist.R;
  * Created by keven-liang on 2017/12/14.
  */
 
-public class TextHolder extends VideoViewHolder{
+public class TextHolder extends RecyclerView.ViewHolder{
 
     public TextView mTextView ;
 

@@ -252,7 +252,7 @@ public class SingleListViewItemActiveCalculator extends BaseItemsVisibilityCalcu
         if(mostVisibleItem.isMostVisibleItemChanged()){
             if(SHOW_LOGS) Logger.v(TAG, "topToBottomMostVisibleItem, item changed");
 
-            //滑动idle 时调用
+            //滑动停止idle 时调用
             setCurrentItem(mostVisibleItem);
         } else {
             if(SHOW_LOGS) Logger.v(TAG, "topToBottomMostVisibleItem, item not changed");
@@ -395,11 +395,11 @@ public class SingleListViewItemActiveCalculator extends BaseItemsVisibilityCalcu
         if(enoughPercentsForDeactivation(currentItemVisibilityPercents) && neighbourItemData.isAvailable()){
 
             // neighbour item become active (current)
-            /** 4. */
-            //当滑过一个item时，暂停视屏处理
+//            /** 4. */
+//            //当滑过一个item时，暂停视屏处理
             onStateFling(itemsPositionGetter);
-
-            //当划过一屏时处理所有 播放状态
+//
+//            //当划过一屏时处理所有 播放状态
             setCurrentItem(neighbourItemData);
 
         }

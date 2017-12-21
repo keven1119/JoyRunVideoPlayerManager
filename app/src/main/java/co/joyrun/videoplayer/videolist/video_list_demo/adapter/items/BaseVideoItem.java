@@ -16,19 +16,17 @@ import co.joyrun.videoplayer.video_player_manager.meta.MetaData;
 import co.joyrun.videoplayer.video_player_manager.ui.MediaPlayerWrapper;
 import co.joyrun.videoplayer.video_player_manager.utils.Logger;
 import co.joyrun.videoplayer.video_player_manager.widget.VideoInterfaceV2;
-import co.joyrun.videoplayer.videolist.R;
-import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.MyVideoHolder;
-import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.VideoViewHolder;
 import co.joyrun.videoplayer.video_player_manager.manager.VideoPlayerManager;
 import co.joyrun.videoplayer.video_player_manager.meta.CurrentItemMetaData;
-import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.ViewHolder;
+
+import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.VideoViewHolder;
 import co.joyrun.videoplayer.visibility_utils.items.ListItem;
 
 public abstract class BaseVideoItem<T extends VideoViewHolder> implements VideoItem, ListItem{
 
     private static final boolean SHOW_LOGS = false;
     private static final String TAG = BaseVideoItem.class.getSimpleName();
-    private Class<T> clz;
+//    private Class<T> clz;
 
     /**
      * An object that is filled with values when {@link #getVisibilityPercents} method is called.
@@ -40,11 +38,11 @@ public abstract class BaseVideoItem<T extends VideoViewHolder> implements VideoI
 
     protected BaseVideoItem(VideoPlayerManager<MetaData>  videoPlayerManager) {
         mVideoPlayerManager = videoPlayerManager;
-        if (clz == null) {
-            //获取泛型的Class对象
-            clz = ((Class<T>)
-                    (((ParameterizedType) (this.getClass().getGenericSuperclass())).getActualTypeArguments()[0]));
-        }
+//        if (clz == null) {
+//            //获取泛型的Class对象
+//            clz = ((Class<T>)
+//                    (((ParameterizedType) (this.getClass().getGenericSuperclass())).getActualTypeArguments()[0]));
+//        }
 
     }
 

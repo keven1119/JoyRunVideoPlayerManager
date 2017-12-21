@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import co.joyrun.videoplayer.videolist.R;
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.VideoViewHolder;
 import co.joyrun.videoplayer.video_player_manager.manager.VideoPlayerManager;
-import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.ViewHolder;
+
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.items.BaseVideoItem;
 
 import java.lang.reflect.InvocationTargetException;

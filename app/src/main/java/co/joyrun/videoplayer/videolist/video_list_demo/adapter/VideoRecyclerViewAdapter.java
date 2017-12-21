@@ -15,11 +15,12 @@ import co.joyrun.videoplayer.video_player_manager.utils.Logger;
 import co.joyrun.videoplayer.videolist.BuildConfig;
 import co.joyrun.videoplayer.videolist.R;
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.MyVideoHolder;
+import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.MyVideoHolderV2;
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.TextHolder;
-import co.joyrun.videoplayer.videolist.video_list_demo.adapter.holders.ViewHolder;
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.items.BaseVideoItem;
 import co.joyrun.videoplayer.video_player_manager.manager.VideoPlayerManager;
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.items.CustomerItem;
+import co.joyrun.videoplayer.videolist.video_list_demo.adapter.items.CustomerItemV2;
 import co.joyrun.videoplayer.visibility_utils.items.ListItem;
 
 import java.lang.reflect.Constructor;
@@ -50,7 +51,7 @@ public class VideoRecyclerViewAdapter extends RecyclerView.Adapter {
         if(type == CUSTOMER) {
             View view = null;
             try {
-                view = CustomerItem.createView(viewGroup, R.layout.video_item, MyVideoHolder.class, mContext.getResources().getDisplayMetrics().widthPixels);
+                view = CustomerItemV2.createView(viewGroup, R.layout.video_item, MyVideoHolderV2.class, mContext.getResources().getDisplayMetrics().widthPixels);
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -82,9 +83,11 @@ public class VideoRecyclerViewAdapter extends RecyclerView.Adapter {
 
         if (BuildConfig.DEBUG) Logger.v(TAG, "onBindViewHolder   position ==> "+ position);
 
-        if (viewHolder instanceof MyVideoHolder) {
-            BaseVideoItem videoItem =(BaseVideoItem) mList.get(position);
-            videoItem.update(position, (MyVideoHolder)viewHolder, mVideoPlayerManager);
+        if (viewHolder instanceof MyVideoHolderV2) {
+//            CustomerItemV2 videoItem =(CustomerItemV2) mList.get(position);
+//            ((MyVideoHolderV2)viewHolder).mPlayer.setCover(myVideoItem.getCoverUrl());
+
+//            videoItem.update(position, (MyVideoHolder)viewHolder, mVideoPlayerManager);
         }else if(viewHolder instanceof TextHolder){
             ((TextHolder)viewHolder).mTextView.setText("hahahahahhahhahahahhahahah");
         }
@@ -98,7 +101,7 @@ public class VideoRecyclerViewAdapter extends RecyclerView.Adapter {
 
         Object o = mList.get(position);
 
-        if(o instanceof CustomerItem){
+        if(o instanceof CustomerItemV2){
             return CUSTOMER;
         }else if(o instanceof String){
             return TEXT;
