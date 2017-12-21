@@ -44,7 +44,7 @@ import static android.media.MediaPlayer.MEDIA_ERROR_TIMED_OUT;
 
 public class ExpendableVideoPlayerView extends FrameLayout implements VideoInterfaceV2,
                                                         View.OnClickListener,TextureView.SurfaceTextureListener ,
-        MediaPlayerWrapper.MainThreadMediaPlayerListener {
+        MediaPlayerWrapper.MainThreadMediaPlayerListener,View.OnTouchListener {
 
     private final static String TAG = ExpendableVideoPlayerView.class.getName();
     private static final int UPDATE_PROGRESS = 0x1;
@@ -136,6 +136,7 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
         mImageview_back.setOnClickListener(this);
         mImageView_volume.setOnClickListener(this);
         mImageView_resize.setOnClickListener(this);
+        mVideoPlayerView.setOnTouchListener(this);
         init();
     }
 
@@ -178,28 +179,17 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
     private int mTouchSlop = 10;
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
+    public boolean onTouch(View v, MotionEvent event) {
+
         if (mVideoPlayerView.getCurrentState() == MediaPlayerWrapper.State.PREPARING )
             return true;
-        switch (ev.getAction()) {
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                mLastY = ev.getY();
-                mLastX = ev.getX();
+                mLastY = event.getY();
+                mLastX = event.getX();
                 break;
-            case MotionEvent.ACTION_MOVE:
-                float absX, absY;
-                absX = Math.abs(ev.getX() - mLastX);
-                absY = Math.abs(ev.getY() - mLastY);
-                if (absY > absX && absY > mTouchSlop) {
-                    requestDisallowInterceptTouchEvent(true);
-                    return true;
-                }
         }
-        return super.onInterceptTouchEvent(ev);
-    }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
         if (!isInPlaybackState() || mPortrait)
             return false;
         if (event.getAction() == MotionEvent.ACTION_MOVE && isInPlaybackState()) {
@@ -417,10 +407,6 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
     }
 
     public void prepare() {
-        if (!isWifiConnected()) {
-            createDialog().show();
-            return;
-        }
         mVideoPlayerView.prepare();
         mHandler.sendEmptyMessage(UPDATE_VIEW);
     }
@@ -797,6 +783,7 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
 
     }
+
 
     class  SpaceLandDialog extends Dialog {
 

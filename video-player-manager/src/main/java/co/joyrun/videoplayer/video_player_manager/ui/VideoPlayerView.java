@@ -150,7 +150,9 @@ public class VideoPlayerView extends ScalableTextureView
     public void reset() {
         if(checkThread()) {
             synchronized (mReadyForPlaybackIndicator) {
-                mMediaPlayer.reset();
+                if(mMediaPlayer != null) {
+                    mMediaPlayer.reset();
+                }
             }
         }
     }
@@ -158,7 +160,9 @@ public class VideoPlayerView extends ScalableTextureView
     public void release() {
         if(checkThread()) {
             synchronized (mReadyForPlaybackIndicator) {
-                mMediaPlayer.release();
+                if(mMediaPlayer != null) {
+                    mMediaPlayer.release();
+                }
             }
         }
     }
@@ -503,7 +507,7 @@ public class VideoPlayerView extends ScalableTextureView
             listener.onErrorMainThread(what, extra);
         }
         if(mMediaPlayer != null) {
-            mMediaPlayer.reset();
+            mMediaPlayer.release();
         }
     }
 
