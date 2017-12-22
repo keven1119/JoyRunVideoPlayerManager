@@ -208,6 +208,7 @@ public class VideoPlayerView extends ScalableTextureView
 
                 if (mMediaPlayer != null) {
                     mMediaPlayer.clearAll();
+                    mMediaPlayer.setSurfaceTexture(null);
                     mMediaPlayer.close();
                     mMediaPlayer.release();
                 }else {
