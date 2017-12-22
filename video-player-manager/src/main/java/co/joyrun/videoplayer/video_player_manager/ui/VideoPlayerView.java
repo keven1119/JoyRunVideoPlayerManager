@@ -331,8 +331,8 @@ public class VideoPlayerView extends ScalableTextureView
         }
 
         if(mViewHandlerBackgroundThread != null){
-            mViewHandlerBackgroundThread.clear();
             mViewHandlerBackgroundThread.postQuit();
+            mViewHandlerBackgroundThread.clear();
             mViewHandlerBackgroundThread = null;
         }
 
