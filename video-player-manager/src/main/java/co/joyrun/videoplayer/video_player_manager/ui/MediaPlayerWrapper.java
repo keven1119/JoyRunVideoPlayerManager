@@ -431,7 +431,6 @@ public abstract class MediaPlayerWrapper
 
             switch (mState.get()) {
                 case PAUSED:
-                    break;
                 case IDLE:
                 case INITIALIZED:
                 case PLAYBACK_COMPLETED:
@@ -440,6 +439,7 @@ public abstract class MediaPlayerWrapper
                 case STOPPED:
                 case PREPARED:
                 case END:
+                    break;
 //                    throw new IllegalStateException("pause, called from illegal state "  + mState);
                 case STARTED:
                     mMediaPlayer.pause();
