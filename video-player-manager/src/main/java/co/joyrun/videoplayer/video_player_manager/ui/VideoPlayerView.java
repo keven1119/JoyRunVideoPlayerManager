@@ -206,15 +206,7 @@ public class VideoPlayerView extends ScalableTextureView
         if(checkThread()) {
             synchronized (mReadyForPlaybackIndicator) {
 
-                if (mMediaPlayer != null) {
-                    mMediaPlayer.clearAll();
-                    mMediaPlayer.setSurfaceTexture(null);
-                    mMediaPlayer.close();
-                    mMediaPlayer.release();
-                }else {
-                    mMediaPlayer = new MediaPlayerWrapperImpl();
-                }
-
+                mMediaPlayer = new MediaPlayerWrapperImpl();
                 mReadyForPlaybackIndicator.setVideoSize(null, null);
                 mReadyForPlaybackIndicator.setFailedToPrepareUiForPlayback(false);
 
