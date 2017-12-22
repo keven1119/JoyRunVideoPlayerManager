@@ -551,12 +551,14 @@ public abstract class MediaPlayerWrapper
     public void clearAll() {
         if (SHOW_LOGS) Logger.v(TAG, ">> clearAll, mState " + mState);
         synchronized (mState) {
-            mMediaPlayer.setOnVideoSizeChangedListener(null);
-            mMediaPlayer.setOnCompletionListener(null);
-            mMediaPlayer.setOnErrorListener(null);
-            mMediaPlayer.setOnBufferingUpdateListener(null);
-            mMediaPlayer.setOnInfoListener(null);
-            mMediaPlayer.setOnSeekCompleteListener(null);
+            if(mMediaPlayer != null) {
+                mMediaPlayer.setOnVideoSizeChangedListener(null);
+                mMediaPlayer.setOnCompletionListener(null);
+                mMediaPlayer.setOnErrorListener(null);
+                mMediaPlayer.setOnBufferingUpdateListener(null);
+                mMediaPlayer.setOnInfoListener(null);
+                mMediaPlayer.setOnSeekCompleteListener(null);
+            }
         }
         if (SHOW_LOGS) Logger.v(TAG, "<< clearAll, mState " + mState);
     }

@@ -207,9 +207,9 @@ public class VideoPlayerView extends ScalableTextureView
             synchronized (mReadyForPlaybackIndicator) {
 
                 if (mMediaPlayer != null) {
+                    mMediaPlayer.clearAll();
                     mMediaPlayer.close();
                     mMediaPlayer.release();
-                    mMediaPlayer.clearAll();
                 }else {
                     mMediaPlayer = new MediaPlayerWrapperImpl();
                 }
