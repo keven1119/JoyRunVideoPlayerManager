@@ -153,9 +153,11 @@ public class ExpendableVideoPlayerView extends FrameLayout implements VideoInter
             @Override
             public void handleMessage(Message msg) {
                 if (msg.what == UPDATE_PROGRESS) {
-                    mSeekBar_progress.setProgress(mVideoPlayerView.getCurrentPrecent());
+                    if(mVideoPlayerView.getCurrentState() == MediaPlayerWrapper.State.STARTED) {
+                        mSeekBar_progress.setProgress(mVideoPlayerView.getCurrentPrecent());
+                        mTextView_currentTime.setText(dataFormat((int) (mVideoPlayerView.getCurrentPrecent() + 500)));
+                    }
                     mHandler.sendEmptyMessageDelayed(UPDATE_PROGRESS, 1000);
-                    mTextView_currentTime.setText(dataFormat((int) (mVideoPlayerView.getCurrentPrecent() + 500)));
                 } else if (msg.what == HIDE_CONTROLLER) {
                     mLayout_video.setVisibility(GONE);
                     mCover.setVisibility(VISIBLE);
