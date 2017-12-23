@@ -54,11 +54,11 @@ public class SingleListViewItemActiveCalculator extends BaseItemsVisibilityCalcu
     }
 
     public void setListItems(List listItems){
-        mListItems = listItems;
         if(mItemRectMap == null){
             mItemRectMap = new HashMap<>();
         }
         mItemRectMap.clear();
+        mListItems = listItems;
     }
 
     /**
