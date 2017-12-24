@@ -54,11 +54,11 @@ public class SingleListViewItemActiveCalculator extends BaseItemsVisibilityCalcu
     }
 
     public void setListItems(List listItems){
+        mListItems = listItems;
         if(mItemRectMap == null){
             mItemRectMap = new HashMap<>();
         }
         mItemRectMap.clear();
-        mListItems = listItems;
     }
 
     /**
@@ -205,13 +205,11 @@ public class SingleListViewItemActiveCalculator extends BaseItemsVisibilityCalcu
             if(indexOfCurrentView > 0){
                 View previousView = itemsPositionGetter.getChildAt(indexOfCurrentView - 1);
 //                ListItem previous = mListItems.get(previousItemIndex);
-                if(previousView != null) {
-                    Rect rect = getViewRect(previousView);
+                Rect rect = getViewRect(previousView);
 //                if(SHOW_LOGS) Logger.v(TAG, "findPreviousItem, previous " + previous + ", previousView " + previousView);
 
-                    previousItemVisibilityPercents = CalculatorHelper.getVisibilityPercents(previousView, rect);
-                    outPreviousItemData.fillWithData(previousItemIndex, previousView);
-                }
+                previousItemVisibilityPercents = CalculatorHelper.getVisibilityPercents(previousView, rect);
+                outPreviousItemData.fillWithData(previousItemIndex, previousView);
 
             } else {
                 if(SHOW_LOGS) Logger.v(TAG, "findPreviousItem, current view is no longer attached to listView");
@@ -279,21 +277,20 @@ public class SingleListViewItemActiveCalculator extends BaseItemsVisibilityCalcu
 //            ListItem listItem = mListItems.get(indexOfCurrentItem);
 
             View currentView = itemsPositionGetter.getChildAt(indexOfCurrentView);
-            if(currentView != null) {
-                Rect rect = getViewRect(currentView);
-                currentItemVisibilityPercents = CalculatorHelper.getVisibilityPercents(currentView, rect);
-                if (SHOW_LOGS)
-                    Logger.v(TAG, "topToBottomMostVisibleItem, currentItemVisibilityPercents " + currentItemVisibilityPercents);
-                if (SHOW_LOGS)
-                    Logger.v(TAG, "topToBottomMostVisibleItem, mostVisibleItemVisibilityPercents " + mostVisibleItemVisibilityPercents);
+            Rect rect = getViewRect(currentView);
+            currentItemVisibilityPercents = CalculatorHelper.getVisibilityPercents(currentView, rect);
+            if (SHOW_LOGS)
+                Logger.v(TAG, "topToBottomMostVisibleItem, currentItemVisibilityPercents " + currentItemVisibilityPercents);
+            if (SHOW_LOGS)
+                Logger.v(TAG, "topToBottomMostVisibleItem, mostVisibleItemVisibilityPercents " + mostVisibleItemVisibilityPercents);
 
-                if (currentItemVisibilityPercents > mostVisibleItemVisibilityPercents) {
+            if (currentItemVisibilityPercents > mostVisibleItemVisibilityPercents) {
 
-                    mostVisibleItemVisibilityPercents = currentItemVisibilityPercents;
-                    outMostVisibleItem.fillWithData(indexOfCurrentItem, currentView);
+                mostVisibleItemVisibilityPercents = currentItemVisibilityPercents;
+                outMostVisibleItem.fillWithData(indexOfCurrentItem, currentView);
 
-                }
             }
+
         }
 
         View currentItemView = mCurrentItem.getView();
@@ -319,27 +316,26 @@ public class SingleListViewItemActiveCalculator extends BaseItemsVisibilityCalcu
             if(SHOW_LOGS) Logger.v(TAG, "bottomToTopMostVisibleItem, indexOfCurrentView " + indexOfCurrentView);
 //            ListItem listItem = mListItems.get(indexOfCurrentItem);
             View currentView = itemsPositionGetter.getChildAt(indexOfCurrentView);
-            if (currentView != null) {
-                Rect rect = getViewRect(currentView);
-                currentItemVisibilityPercents = CalculatorHelper.getVisibilityPercents(currentView, rect);
-                if (SHOW_LOGS)
-                    Logger.v(TAG, "bottomToTopMostVisibleItem, currentItemVisibilityPercents " + currentItemVisibilityPercents);
+            Rect rect = getViewRect(currentView);
+            currentItemVisibilityPercents = CalculatorHelper.getVisibilityPercents(currentView, rect);
+            if (SHOW_LOGS)
+                Logger.v(TAG, "bottomToTopMostVisibleItem, currentItemVisibilityPercents " + currentItemVisibilityPercents);
 
-                if (currentItemVisibilityPercents > mostVisibleItemVisibilityPercents) {
-                    mostVisibleItemVisibilityPercents = currentItemVisibilityPercents;
-                    outMostVisibleItem.fillWithData(indexOfCurrentItem, currentView);
-                }
-
-                View currentItemView = mCurrentItem.getView();
-                View mostVisibleView = outMostVisibleItem.getView();
-
-                // set if newly found most visible view is different from previous most visible view
-                boolean itemChanged = currentItemView != mostVisibleView;
-                if (SHOW_LOGS)
-                    Logger.v(TAG, "topToBottomMostVisibleItem, itemChanged " + itemChanged);
-
-                outMostVisibleItem.setMostVisibleItemChanged(itemChanged);
+            if (currentItemVisibilityPercents > mostVisibleItemVisibilityPercents) {
+                mostVisibleItemVisibilityPercents = currentItemVisibilityPercents;
+                outMostVisibleItem.fillWithData(indexOfCurrentItem, currentView);
             }
+
+            View currentItemView = mCurrentItem.getView();
+            View mostVisibleView = outMostVisibleItem.getView();
+
+            // set if newly found most visible view is different from previous most visible view
+            boolean itemChanged = currentItemView != mostVisibleView;
+            if (SHOW_LOGS)
+                Logger.v(TAG, "topToBottomMostVisibleItem, itemChanged " + itemChanged);
+
+            outMostVisibleItem.setMostVisibleItemChanged(itemChanged);
+
         }
         if(SHOW_LOGS) Logger.v(TAG, "bottomToTopMostVisibleItem, outMostVisibleItem " + outMostVisibleItem);
     }
@@ -391,7 +387,6 @@ public class SingleListViewItemActiveCalculator extends BaseItemsVisibilityCalcu
     private void calculateActiveItem(ItemsPositionGetter itemsPositionGetter, ListItemData listItemData) {
         /** 1. */
         View listItemDataView = listItemData.getView();
-        if(listItemDataView != null) {
             int currentItemVisibilityPercents = listItemData.getVisibilityPercents(mListItems, getViewRect(listItemDataView));
             if (SHOW_LOGS)
                 Logger.v(TAG, "calculateActiveItem, mScrollDirection " + mScrollDirection);
@@ -421,7 +416,7 @@ public class SingleListViewItemActiveCalculator extends BaseItemsVisibilityCalcu
                 setCurrentItem(neighbourItemData);
 
             }
-        }
+
     }
 
     private boolean enoughPercentsForDeactivation(int visibilityPercents) {

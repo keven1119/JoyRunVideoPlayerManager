@@ -39,10 +39,8 @@ public class CalculatorHelper {
             setVisibilityPercentsText(currentView, percents);
             if (SHOW_LOGS) Logger.v(TAG, "<< getVisibilityPercents, percents " + percents);
 
-            return percents;
-        }else {
-            return 0;
         }
+        return percents;
     }
     private static boolean viewIsPartiallyHiddenTop(Rect currentViewRect) {
         return currentViewRect.top > 0;
