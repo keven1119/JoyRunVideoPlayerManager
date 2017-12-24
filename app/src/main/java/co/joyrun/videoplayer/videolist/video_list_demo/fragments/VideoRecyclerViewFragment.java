@@ -45,7 +45,7 @@ public class VideoRecyclerViewFragment extends Fragment {
     /**
      * Only the one (most visible) view should be active (and playing).
      * To calculate visibility of views we use {@link SingleListViewItemActiveCalculator}
-     */
+//     */
     private SingleListViewItemActiveCalculator mVideoVisibilityCalculator =
             new SingleListViewItemActiveCalculator(new DefaultSingleItemCalculatorCallback());
 
@@ -56,7 +56,7 @@ public class VideoRecyclerViewFragment extends Fragment {
      * ItemsPositionGetter is used by {@link ListItemsVisibilityCalculator} for getting information about
      * items position in the RecyclerView and LayoutManager
      */
-    private ItemsPositionGetter mItemsPositionGetter;
+//    private ItemsPositionGetter mItemsPositionGetter;
 
     /**
      * Here we use {@link SingleVideoPlayerManager}, which means that only one video playback is possible.

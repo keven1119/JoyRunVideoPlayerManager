@@ -21,23 +21,28 @@ public class CalculatorHelper {
 
         int percents = 100;
 
-        currentView.getLocalVisibleRect(currentViewRect);
-        if(SHOW_LOGS) Logger.v(TAG, "getVisibilityPercents currentViewRect top " + currentViewRect.top + ", left " + currentViewRect.left + ", bottom " + currentViewRect.bottom + ", right " + currentViewRect.right);
+        if(currentView != null && currentViewRect != null) {
+            currentView.getLocalVisibleRect(currentViewRect);
+            if (SHOW_LOGS)
+                Logger.v(TAG, "getVisibilityPercents currentViewRect top " + currentViewRect.top + ", left " + currentViewRect.left + ", bottom " + currentViewRect.bottom + ", right " + currentViewRect.right);
 
-        int height = currentView.getHeight();
-        if(SHOW_LOGS) Logger.v(TAG, "getVisibilityPercents height " + height);
+            int height = currentView.getHeight();
+            if (SHOW_LOGS) Logger.v(TAG, "getVisibilityPercents height " + height);
 
-        if(viewIsPartiallyHiddenTop(currentViewRect)){
-            // view is partially hidden behind the top edge
-            percents = (height - currentViewRect.top) * 100 / height;
-        } else if(viewIsPartiallyHiddenBottom(height,currentViewRect)){
-            percents = currentViewRect.bottom * 100 / height;
+            if (viewIsPartiallyHiddenTop(currentViewRect)) {
+                // view is partially hidden behind the top edge
+                percents = (height - currentViewRect.top) * 100 / height;
+            } else if (viewIsPartiallyHiddenBottom(height, currentViewRect)) {
+                percents = currentViewRect.bottom * 100 / height;
+            }
+
+            setVisibilityPercentsText(currentView, percents);
+            if (SHOW_LOGS) Logger.v(TAG, "<< getVisibilityPercents, percents " + percents);
+
+            return percents;
+        }else {
+            return 0;
         }
-
-        setVisibilityPercentsText(currentView, percents);
-        if(SHOW_LOGS) Logger.v(TAG, "<< getVisibilityPercents, percents " + percents);
-
-        return percents;
     }
     private static boolean viewIsPartiallyHiddenTop(Rect currentViewRect) {
         return currentViewRect.top > 0;
