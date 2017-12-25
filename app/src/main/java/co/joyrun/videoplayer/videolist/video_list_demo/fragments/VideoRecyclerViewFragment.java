@@ -22,6 +22,7 @@ import co.joyrun.videoplayer.videolist.video_list_demo.adapter.items.DirectLinkV
 import co.joyrun.videoplayer.video_player_manager.manager.SingleVideoPlayerManager;
 import co.joyrun.videoplayer.video_player_manager.manager.VideoPlayerManager;
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.items.ItemFactory;
+import co.joyrun.videoplayer.videolist.video_list_demo.adapter.items.TextItem;
 import co.joyrun.videoplayer.visibility_utils.calculator.DefaultSingleItemCalculatorCallback;
 import co.joyrun.videoplayer.visibility_utils.calculator.ListItemsVisibilityCalculator;
 import co.joyrun.videoplayer.visibility_utils.calculator.SingleListViewItemActiveCalculator;
@@ -80,30 +81,39 @@ public class VideoRecyclerViewFragment extends Fragment {
 //
 //
         mVideoPlayerManager.setPrePrepare(true);
+
         mVideoPlayerManager.setAutoPlay(true);
 
 //        mList.add(new CustomerItem(myVideoItem, mVideoPlayerManager));
+//        mList.add("hahahhahhahahaa");
+        mList.add(new TextItem("hahahahhahhahaha"));
+        mList.add(new TextItem("hahahahhahhahaha"));
+        mList.add(new TextItem("hahahahhahhahaha"));
+        mList.add(new TextItem("hahahahhahhahaha"));
+        mList.add(new TextItem("hahahahhahhahaha"));
+        mList.add(new TextItem("hahahahhahhahaha"));
+        mList.add(new TextItem("hahahahhahhahaha"));
         mList.add(new CustomerItemV2(mVideoPlayerManager,myVideoItem));
         mList.add(new CustomerItemV2(mVideoPlayerManager,myVideoItem));
-        mList.add("hahahhahhahaha");
-        mList.add("hahahhahhahaha");
-        mList.add("hahahhahhahaha");
-        mList.add("hahahhahhahaha");
-        mList.add("hahahhahhahaha");
-        mList.add("hahahhahhahaha");
+        mList.add(new TextItem("hahahahhahhahaha"));
+        mList.add(new TextItem("hahahahhahhahaha"));
+        mList.add(new TextItem("hahahahhahhahaha"));
+        mList.add(new TextItem("hahahahhahhahaha"));
+        mList.add(new TextItem("hahahahhahhahaha"));
+        mList.add(new TextItem("hahahahhahhahaha"));
         mList.add(new CustomerItemV2(mVideoPlayerManager,myVideoItem));
-        mList.add("hahahhahhahaha");
+        mList.add(new TextItem("hahahahhahhahaha"));
         mList.add(new CustomerItemV2(mVideoPlayerManager,myVideoItem));
-        mList.add("hahahhahhahaha");
+        mList.add(new TextItem("hahahahhahhahaha"));
         mList.add(new CustomerItemV2(mVideoPlayerManager,myVideoItem));
-        mList.add("hahahhahhahaha");
+        mList.add(new TextItem("hahahahhahhahaha"));
         mList.add(new CustomerItemV2(mVideoPlayerManager,myVideoItem));
         mList.add(new CustomerItemV2(mVideoPlayerManager,myVideoItem));
-        mList.add("hahahhahhahaha");
+        mList.add(new TextItem("hahahahhahhahaha"));
         mList.add(new CustomerItemV2(mVideoPlayerManager,myVideoItem));
-        mList.add("hahahhahhahaha");
+        mList.add(new TextItem("hahahahhahhahaha"));
         mList.add(new CustomerItemV2(mVideoPlayerManager,myVideoItem));
-        mList.add("hahahhahhahaha");
+        mList.add(new TextItem("hahahahhahhahaha"));
         mList.add(new CustomerItemV2(mVideoPlayerManager,myVideoItem));
         mList.add(new CustomerItemV2(mVideoPlayerManager,myVideoItem));
         mList.add(new CustomerItemV2(mVideoPlayerManager,myVideoItem));

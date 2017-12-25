@@ -21,6 +21,7 @@ import co.joyrun.videoplayer.videolist.video_list_demo.adapter.items.BaseVideoIt
 import co.joyrun.videoplayer.video_player_manager.manager.VideoPlayerManager;
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.items.CustomerItem;
 import co.joyrun.videoplayer.videolist.video_list_demo.adapter.items.CustomerItemV2;
+import co.joyrun.videoplayer.videolist.video_list_demo.adapter.items.TextItem;
 import co.joyrun.videoplayer.visibility_utils.items.ListItem;
 
 import java.lang.reflect.Constructor;
@@ -103,7 +104,7 @@ public class VideoRecyclerViewAdapter extends RecyclerView.Adapter {
 
         if(o instanceof CustomerItemV2){
             return CUSTOMER;
-        }else if(o instanceof String){
+        }else if(o instanceof TextItem){
             return TEXT;
         }
 
